@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip:*)",
+      "Bash(python:*)",
+      "Edit(*)",
+      "Write(*)",
+      "mcp__context7__*"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
