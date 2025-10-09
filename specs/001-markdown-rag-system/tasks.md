@@ -42,7 +42,7 @@
 - [x] T006 Create abstract interfaces in `src/markdown_rag_mcp/core/interfaces.py` for IRAGEngine, IVectorStore, IEmbeddingProvider, IDocumentParser
 - [x] T007 [P] Create base data models in `src/markdown_rag_mcp/models/__init__.py` for Document, DocumentSection, QueryResult
 - [x] T008 [P] Implement configuration management in `src/markdown_rag_mcp/config/settings.py` with environment variable support
-- [x] T009 [P] Create error handling classes in `src/markdown_rag_mcp/models/exceptions.py` for MarkdownRAGError, MilvusConnectionError, EmbeddingModelError
+- [x] T009 [P] Create error handling classes in `src/markdown_rag_mcp/models/exceptions.py` for `BaseError`, `MilvusConnectionError`, `EmbeddingModelError`
 - [x] T010 Setup Milvus connection and collection management in `src/markdown_rag_mcp/storage/base_store.py`
 - [x] T011 Initialize main library exports in `src/markdown_rag_mcp/__init__.py` exposing core interfaces
 

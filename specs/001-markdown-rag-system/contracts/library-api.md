@@ -207,27 +207,27 @@ class FileMonitor(ABC):
 ### Error Types
 
 ```python
-class MarkdownRAGError(Exception):
+class BaseError(Exception):
     """Base exception for all RAG system errors."""
     pass
 
-class MilvusConnectionError(MarkdownRAGError):
+class MilvusConnectionError(BaseError):
     """Milvus connection or collection errors."""
     pass
 
-class EmbeddingModelError(MarkdownRAGError):
+class EmbeddingModelError(BaseError):
     """Local embedding model loading or inference errors."""
     pass
 
-class DocumentProcessingError(MarkdownRAGError):
+class DocumentProcessingError(BaseError):
     """Document parsing or processing errors."""
     pass
 
-class ConfigurationError(MarkdownRAGError):
+class ConfigurationError(BaseError):
     """Invalid configuration or missing settings."""
     pass
 
-class CollectionError(MarkdownRAGError):
+class CollectionError(BaseError):
     """Milvus collection creation or management errors."""
     pass
 ```
