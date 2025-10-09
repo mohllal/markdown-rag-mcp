@@ -1,50 +1,55 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report:
+- Version change: 0.0.0 → 1.0.0
+- New constitution creation with 5 core principles for MCP server and RAG system development
+- All templates align with library-first, CLI-based, test-driven development approach
+- Follow-up: No immediate template updates required - templates already support this structure
+-->
+
+# Markdown RAG MCP Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Library-First Architecture
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Every feature starts as a standalone library with clear boundaries and minimal dependencies. Libraries must be self-contained, independently testable, and well-documented. Each library requires a clear, specific purpose - no organizational-only libraries that lack concrete functionality.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. CLI Interface Standard
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+Every library exposes functionality via a command-line interface following the text in/out protocol: stdin/arguments → stdout, with errors directed to stderr. All outputs must support both JSON and human-readable formats for maximum interoperability.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Test-First Development (NON-NEGOTIABLE)
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Test-Driven Development is mandatory: Tests must be written first, approved by stakeholders, and verified to fail before implementation begins. The Red-Green-Refactor cycle is strictly enforced with no exceptions.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. MCP Protocol Compliance
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+All server implementations must strictly adhere to the Model Context Protocol specification. Server tools and resources must be properly declared, documented, and tested for compatibility with MCP clients. Breaking changes to MCP interfaces require major version increments.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Documentation-Driven Design
+
+Every feature requires comprehensive documentation including usage examples, API references, and integration guides. Documentation must be written before implementation and updated synchronously with code changes. Missing or outdated documentation blocks feature completion.
+
+## Integration Standards
+
+All MCP servers must provide standardized integration patterns:
+
+- Server initialization and configuration management
+- Error handling and logging following MCP conventions
+- Resource discovery and capability advertisement
+- Graceful shutdown and resource cleanup procedures
+
+## Quality Assurance
+
+Development workflow requires:
+
+- Contract testing for all MCP tool and resource interfaces
+- Integration testing with real MCP clients
+- Performance benchmarking under realistic load conditions
+- Security validation for data handling and access controls
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other development practices. All code reviews and pull requests must verify compliance with these principles. Complexity that violates these principles must be explicitly justified with documented rationale. Amendments require team consensus, documentation updates, and migration plans.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-10-08 | **Last Amended**: 2025-10-08
