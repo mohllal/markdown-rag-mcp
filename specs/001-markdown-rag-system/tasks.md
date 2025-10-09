@@ -161,6 +161,10 @@
 - [ ] T066 [P] Security hardening for file system operations and input validation
 - [ ] T067 Run quickstart.md validation to ensure end-to-end functionality
 - [ ] T068 [P] Create packaging configuration for library distribution
+- [ ] T069 [P] Create accuracy measurement framework in `tests/integration/test_accuracy_validation.py` with ground truth dataset and 85% accuracy validation for SC-002
+- [ ] T070 [P] Generate ground truth query-answer pairs for technical domain accuracy testing in `tests/fixtures/ground_truth_dataset.json`
+- [ ] T071 [P] Implement Milvus performance optimization in `src/markdown_rag/storage/milvus_store.py` with connection pooling, batch operations, and index tuning
+- [ ] T072 [P] Add performance benchmarking suite in `tests/performance/test_scale_limits.py` to validate SC-001, SC-004, and SC-006 metrics
 
 ---
 
@@ -258,3 +262,4 @@ With multiple developers:
 - Focus on library-first architecture - CLI serves as reference implementation
 - Maintain >0.7 similarity threshold and 85% accuracy targets
 - Support up to 1000 markdown files and 10GB collections
+- **Total Tasks: 73** (Updated with accuracy measurement and performance optimization tasks)

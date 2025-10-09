@@ -9,7 +9,8 @@
       "Edit(*)",
       "Write(*)",
       "mcp__context7__*",
-      "mcp__github__*"
+      "mcp__github__*",
+      "Bash(.specify/scripts/bash/check-prerequisites.sh:*)"
     ],
     "deny": [],
     "ask": []

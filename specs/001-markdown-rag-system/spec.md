@@ -84,13 +84,14 @@ As a user with a growing collection of documentation, I want the system to autom
 - When the vector database is unavailable or corrupted, the system returns clear error messages to external components without attempting complex recovery mechanisms
 - How are duplicate or near-duplicate files handled in the index?
 - What happens when embedding generation fails for specific content?
+- How is the 85% accuracy target (SC-002) measured? System requires ground truth dataset with labeled query-answer pairs for technical documentation scenarios.
 
 ## Requirements
 
 ### Functional Requirements
 
 - **FR-001**: System MUST parse markdown files in `./markdown` directory including headings, body text, code blocks, and existing frontmatter
-- **FR-002**: System MUST generate semantic embeddings for markdown content using a local embedding model, chunking documents by markdown headings with size limits to ensure chunks don't exceed reasonable processing boundaries
+- **FR-002**: System MUST generate semantic embeddings for markdown content using a local embedding model, chunking documents by markdown headings with maximum chunk size of 1000 tokens to ensure compatibility with embedding model context windows
 - **FR-003**: System MUST store document vectors and metadata in a local vector database with similarity search capabilities
 - **FR-004**: System MUST accept natural language queries and return results as JSON objects containing section text, file path, confidence score, and section heading, ranked by relevance, including only matches with similarity scores >0.7
 - **FR-005**: System MUST parse and utilize existing YAML frontmatter when present, including `title`, `tags`, `summary`, `topics`, `keywords`, and `llm_hints` fields
@@ -99,6 +100,7 @@ As a user with a growing collection of documentation, I want the system to autom
 - **FR-008**: System MUST maintain an index of processed files with timestamps for incremental updates
 - **FR-009**: System MUST handle file system monitoring to detect changes in the `./markdown` directory
 - **FR-010**: System MUST skip files that cannot be processed, log detailed error information, and continue processing remaining files without halting the entire indexing operation
+- **FR-011**: System implementation MUST follow Test-Driven Development (TDD) workflow with tests written first, verified to fail, then implementation written to pass tests per constitutional requirement III
 
 ### Key Entities
 
@@ -118,6 +120,7 @@ As a user with a growing collection of documentation, I want the system to autom
 - **SC-004**: System processes and indexes new or modified files within 30 seconds of detection
 - **SC-005**: Query interface returns results with consistent relevance ranking across multiple similar queries
 - **SC-006**: System handles markdown collections up to 10GB without performance degradation below success criteria thresholds
+- **SC-007**: All implementation tasks have corresponding test tasks that are completed first and verified to fail before implementation begins
 
 ## Assumptions
 
