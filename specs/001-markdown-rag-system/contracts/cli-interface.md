@@ -6,7 +6,7 @@
 
 ## Command Structure
 
-All commands follow the pattern: `markdown-rag [COMMAND] [OPTIONS]`
+All commands follow the pattern: `markdown-rag-mcp [COMMAND] [OPTIONS]`
 
 ### Global Options
 
@@ -24,7 +24,7 @@ All commands follow the pattern: `markdown-rag [COMMAND] [OPTIONS]`
 **Usage**:
 
 ```bash
-markdown-rag index [OPTIONS] [PATH]
+markdown-rag-mcp index [OPTIONS] [PATH]
 ```
 
 **Arguments**:
@@ -77,7 +77,7 @@ Errors:
 **Usage**:
 
 ```bash
-markdown-rag search [OPTIONS] "QUERY"
+markdown-rag-mcp search [OPTIONS] "QUERY"
 ```
 
 **Arguments**:
@@ -93,7 +93,7 @@ markdown-rag search [OPTIONS] "QUERY"
 **Input (stdin alternative)**:
 
 ```bash
-echo "authentication setup" | markdown-rag search --format json
+echo "authentication setup" | markdown-rag-mcp search --format json
 ```
 
 **Output (JSON)**:
@@ -151,7 +151,7 @@ echo "authentication setup" | markdown-rag search --format json
 **Usage**:
 
 ```bash
-markdown-rag status [OPTIONS]
+markdown-rag-mcp status [OPTIONS]
 ```
 
 **Options**:
@@ -194,7 +194,7 @@ markdown-rag status [OPTIONS]
 **Usage**:
 
 ```bash
-markdown-rag config [SUBCOMMAND] [OPTIONS]
+markdown-rag-mcp config [SUBCOMMAND] [OPTIONS]
 ```
 
 **Subcommands**:
@@ -206,9 +206,9 @@ markdown-rag config [SUBCOMMAND] [OPTIONS]
 **Examples**:
 
 ```bash
-markdown-rag config show --format json
-markdown-rag config set embedding.model "text-embedding-3-small"
-markdown-rag config set similarity.threshold 0.8
+markdown-rag-mcp config show --format json
+markdown-rag-mcp config set embedding.model "text-embedding-3-small"
+markdown-rag-mcp config set similarity.threshold 0.8
 ```
 
 ### 5. validate - Validate Files
@@ -218,7 +218,7 @@ markdown-rag config set similarity.threshold 0.8
 **Usage**:
 
 ```bash
-markdown-rag validate [OPTIONS] [PATH]
+markdown-rag-mcp validate [OPTIONS] [PATH]
 ```
 
 **Options**:
@@ -238,7 +238,7 @@ markdown-rag validate [OPTIONS] [PATH]
     "message": "Unable to connect to Milvus database",
     "details": {
       "host": "localhost",
-      "database": "markdown_rag",
+      "database": "markdown_rag_mcp",
       "suggestion": "Check if Milvus is running"
     }
   }
@@ -252,11 +252,11 @@ Error: Unable to connect to Milvus database
 
 Details:
   Host: localhost
-  Database: markdown_rag
+  Database: markdown_rag_mcp
 
 Suggestion: Check if Milvus is running
 
-For more help, run: markdown-rag --help
+For more help, run: markdown-rag-mcp --help
 ```
 
 ### Common Error Codes
@@ -269,7 +269,7 @@ For more help, run: markdown-rag --help
 
 ## Configuration File
 
-**Default Location**: `~/.config/markdown-rag/config.toml`
+**Default Location**: `~/.config/markdown-rag-mcp/config.toml`
 
 **Format**:
 
@@ -277,7 +277,7 @@ For more help, run: markdown-rag --help
 [milvus]
 host = "localhost"
 port = 19530
-collection_prefix = "markdown_rag"
+collection_prefix = "markdown_rag_mcp"
 
 [embedding]
 model = "sentence-transformers/all-MiniLM-L6-v2"
@@ -291,7 +291,7 @@ max_file_size_mb = 50
 
 [directories]
 markdown_path = "./markdown"
-cache_path = "~/.cache/markdown-rag"
+cache_path = "~/.cache/markdown-rag-mcp"
 
 [monitoring]
 watch_enabled = false
@@ -304,20 +304,20 @@ scan_interval_seconds = 60
 
 ```bash
 # Index files and then search
-markdown-rag index ./docs && markdown-rag search "API documentation"
+markdown-rag-mcp index ./docs && markdown-rag-mcp search "API documentation"
 
 # Continuous monitoring
-markdown-rag index --watch &
+markdown-rag-mcp index --watch &
 ```
 
 ### JSON Output Processing
 
 ```bash
 # Extract file paths from search results
-markdown-rag search "example" --format json | jq -r '.results[].file_path'
+markdown-rag-mcp search "example" --format json | jq -r '.results[].file_path'
 
 # Check if indexing succeeded
-if markdown-rag index --format json | jq -e '.status == "success"'; then
+if markdown-rag-mcp index --format json | jq -e '.status == "success"'; then
     echo "Indexing completed successfully"
 fi
 ```
@@ -326,12 +326,12 @@ fi
 
 ```bash
 # Configuration via environment variables
-export MARKDOWN_RAG_MILVUS_HOST="localhost"
-export MARKDOWN_RAG_MILVUS_PORT="19530"
-export MARKDOWN_RAG_EMBEDDING_DEVICE="cuda"  # Optional: use GPU if available
-export MARKDOWN_RAG_CONFIG="/path/to/config.toml"
+export MARKDOWN_RAG_MCP_MILVUS_HOST="localhost"
+export MARKDOWN_RAG_MCP_MILVUS_PORT="19530"
+export MARKDOWN_RAG_MCP_EMBEDDING_DEVICE="cuda"  # Optional: use GPU if available
+export MARKDOWN_RAG_MCP_CONFIG="/path/to/config.toml"
 
-markdown-rag search "query"
+markdown-rag-mcp search "query"
 ```
 
 This CLI interface contract ensures constitutional compliance with text in/out protocol and provides both JSON and human-readable formats for maximum interoperability.

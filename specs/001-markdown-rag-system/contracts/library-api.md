@@ -11,9 +11,9 @@
 **Purpose**: Main orchestration class for all RAG operations - designed for easy integration into any external interface
 
 ```python
-from markdown_rag.core import RAGEngine, IRAGEngine
-from markdown_rag.models import QueryResult, DocumentInfo, IndexResult
-from markdown_rag.config import RAGConfig
+from markdown_rag_mcp.core import RAGEngine, IRAGEngine
+from markdown_rag_mcp.models import QueryResult, DocumentInfo, IndexResult
+from markdown_rag_mcp.config import RAGConfig
 from typing import List, Optional
 
 class RAGEngine(IRAGEngine):
@@ -149,7 +149,7 @@ class MarkdownRAGConfig(BaseSettings):
     # Milvus Vector Database
     milvus_host: str = "localhost"
     milvus_port: int = 19530
-    milvus_collection_prefix: str = "markdown_rag"
+    milvus_collection_prefix: str = "markdown_rag_mcp"
 
     # Local Embedding Model
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
@@ -163,11 +163,11 @@ class MarkdownRAGConfig(BaseSettings):
 
     # Directories
     markdown_directory: str = "./markdown"
-    cache_directory: str = "~/.cache/markdown-rag"
+    cache_directory: str = "~/.cache/markdown-rag-mcp"
     model_cache_directory: str = "~/.cache/huggingface"
 
     class Config:
-        env_prefix = "MARKDOWN_RAG_"
+        env_prefix = "MARKDOWN_RAG_MCP_"
         env_file = ".env"
 ```
 
@@ -238,7 +238,7 @@ class CollectionError(MarkdownRAGError):
 
 ```python
 import asyncio
-from markdown_rag import MarkdownRAG, MarkdownRAGConfig
+from markdown_rag_mcp import MarkdownRAG, MarkdownRAGConfig
 
 async def basic_example():
     # Load configuration
@@ -272,8 +272,8 @@ asyncio.run(basic_example())
 ### Library Extension Pattern
 
 ```python
-from markdown_rag.core import RAGEngine, IRAGEngine
-from markdown_rag.models import QueryResult
+from markdown_rag_mcp.core import RAGEngine, IRAGEngine
+from markdown_rag_mcp.models import QueryResult
 from typing import List, Dict, Any
 
 class ExtendedRAGEngine:
@@ -325,7 +325,7 @@ class ExtendedRAGEngine:
 ### Custom Embedding Provider
 
 ```python
-from markdown_rag.embeddings import BaseEmbeddingProvider
+from markdown_rag_mcp.embeddings import BaseEmbeddingProvider
 from typing import List
 import httpx
 
@@ -353,15 +353,15 @@ class CustomEmbeddingProvider(BaseEmbeddingProvider):
         pass
 
 # Register custom provider
-from markdown_rag import register_embedding_provider
+from markdown_rag_mcp import register_embedding_provider
 register_embedding_provider("custom", CustomEmbeddingProvider)
 ```
 
 ### File Monitoring Integration
 
 ```python
-from markdown_rag import MarkdownRAG
-from markdown_rag.monitoring import FileMonitor
+from markdown_rag_mcp import MarkdownRAG
+from markdown_rag_mcp.monitoring import FileMonitor
 
 async def monitoring_example():
     rag = MarkdownRAG(...)
@@ -392,8 +392,8 @@ async def monitoring_example():
 ### Configuration Management Pattern
 
 ```python
-from markdown_rag.config import RAGConfig
-from markdown_rag.core import RAGEngine
+from markdown_rag_mcp.config import RAGConfig
+from markdown_rag_mcp.core import RAGEngine
 from pathlib import Path
 import os
 

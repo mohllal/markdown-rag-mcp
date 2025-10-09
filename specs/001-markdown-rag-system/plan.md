@@ -80,7 +80,7 @@ specs/[###-feature]/
 
 ```plaintext
 src/
-├── markdown_rag/                    # Core library package
+├── markdown_rag_mcp/                    # Core library package
 │   ├── __init__.py                  # Main library exports
 │   ├── core/                        # Core RAG functionality
 │   │   ├── __init__.py
