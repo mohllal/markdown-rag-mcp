@@ -146,6 +146,44 @@ class DocumentParsingError(BaseError):
         super().__init__(message, error_code="PARSING_ERROR", context=context, cause=underlying_error)
 
 
+class ParsingError(BaseError):
+    """Raised when general parsing operations fail."""
+
+    def __init__(
+        self,
+        message: str,
+        file_path: str | None = None,
+        operation: str | None = None,
+        underlying_error: Exception | None = None,
+    ):
+        context = {}
+        if file_path:
+            context["file_path"] = file_path
+        if operation:
+            context["operation"] = operation
+
+        super().__init__(message, error_code="PARSING_ERROR", context=context, cause=underlying_error)
+
+
+class ChunkingError(BaseError):
+    """Raised when document chunking operations fail."""
+
+    def __init__(
+        self,
+        message: str,
+        file_path: str | None = None,
+        operation: str | None = None,
+        underlying_error: Exception | None = None,
+    ):
+        context = {}
+        if file_path:
+            context["file_path"] = file_path
+        if operation:
+            context["operation"] = operation
+
+        super().__init__(message, error_code="CHUNKING_ERROR", context=context, cause=underlying_error)
+
+
 class IndexingError(BaseError):
     """Raised when document indexing process fails."""
 

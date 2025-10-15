@@ -124,7 +124,7 @@ class TestMilvusVectorStore:
         with pytest.raises(VectorStoreError) as exc_info:
             await vector_store.initialize_collections()
 
-        assert "Failed to initialize LangChain vector store" in str(exc_info.value)
+        assert "Failed to initialize Milvus vector store" in str(exc_info.value)
         assert "Connection failed" in str(exc_info.value)
         assert not vector_store.is_initialized
 

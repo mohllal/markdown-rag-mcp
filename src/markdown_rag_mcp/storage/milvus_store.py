@@ -1,8 +1,5 @@
 """
-LangChain-based vector store implementation.
-
-Uses langchain-milvus directly for vector storage operations, eliminating
-custom Milvus logic and leveraging LangChain's optimized implementation.
+Vector store implementation.
 """
 
 import logging
@@ -22,14 +19,14 @@ logger = logging.getLogger(__name__)
 
 class MilvusVectorStore(IVectorStore):
     """
-    LangChain-based Milvus vector store implementation.
+    Milvus vector store implementation.
 
-    Leverages langchain-milvus for all vector operations, providing a clean
+    Leverages Milvus for all vector operations, providing a clean
     interface while eliminating custom Milvus collection management.
     """
 
     def __init__(self, config: RAGConfig, embedding_provider: IEmbeddingProvider):
-        """Initialize LangChain vector store with configuration."""
+        """Initialize vector store with configuration."""
         self.config = config
         self.embedding_provider = embedding_provider
         self._vectorstore: Milvus | None = None
@@ -41,7 +38,7 @@ class MilvusVectorStore(IVectorStore):
         return self._initialized and self._vectorstore is not None
 
     async def initialize_collections(self) -> None:
-        """Initialize LangChain Milvus vector store."""
+        """Initialize Milvus vector store."""
         if self._initialized:
             return
 
@@ -52,7 +49,7 @@ class MilvusVectorStore(IVectorStore):
                 "db_name": "markdown_rag",
             }
 
-            # Initialize LangChain Milvus vector store
+            # Initialize Milvus vector store
             self._vectorstore = Milvus(
                 embedding_function=self.embedding_provider,
                 collection_name="document_sections",
@@ -63,29 +60,29 @@ class MilvusVectorStore(IVectorStore):
             )
 
             self._initialized = True
-            logger.info("LangChain vector store initialized successfully")
+            logger.info("Milvus vector store initialized successfully")
 
         except Exception as e:
             raise VectorStoreError(
-                f"Failed to initialize LangChain vector store: {e}",
+                f"Failed to initialize Milvus vector store: {e}",
                 operation="initialize_collections",
                 underlying_error=e,
             ) from e
 
     async def store_document_sections(self, sections: list[DocumentSection], embeddings: list[list[float]]) -> None:
-        """Store document sections using LangChain Milvus."""
+        """Store document sections using Milvus."""
         if not sections or not self.is_initialized:
             return
 
         try:
-            # Convert sections to LangChain Document format
+            # Convert sections to Milvus Document format
             documents = self._convert_sections_to_documents(sections)
 
             # Add documents to vector store
-            # LangChain will automatically generate embeddings using our embedding provider
+            # Milvus will automatically generate embeddings using our embedding provider
             await self._vectorstore.aadd_documents(documents)
 
-            logger.info("Stored %s document sections using LangChain", len(sections))
+            logger.info("Stored %s document sections using Milvus", len(sections))
 
         except Exception as e:
             raise VectorStoreError(
@@ -102,7 +99,7 @@ class MilvusVectorStore(IVectorStore):
         similarity_threshold: float = 0.7,
         metadata_filters: dict[str, Any] | None = None,
     ) -> list[QueryResult]:
-        """Search for similar document sections using LangChain."""
+        """Search for similar document sections using Milvus."""
         if not self.is_initialized:
             raise VectorStoreError("Vector store not initialized", operation="search_similar")
 
@@ -244,11 +241,11 @@ class MilvusVectorStore(IVectorStore):
         """Clean up resources and close connections."""
         try:
             if self._vectorstore:
-                # LangChain handles connection cleanup automatically
+                # Milvus handles connection cleanup automatically
                 self._vectorstore = None
 
             self._initialized = False
-            logger.info("LangChain vector store cleaned up successfully")
+            logger.info("Milvus vector store cleaned up successfully")
 
         except Exception as e:
             logger.error("Error during cleanup: %s", e)
@@ -259,11 +256,11 @@ class MilvusVectorStore(IVectorStore):
             ) from e
 
     def _convert_sections_to_documents(self, sections: list[DocumentSection]) -> list[Document]:
-        """Convert DocumentSection objects to LangChain Document format."""
+        """Convert DocumentSection objects to Milvus Document format."""
         documents = []
 
         for section in sections:
-            # Create LangChain Document with section text and metadata
+            # Create Milvus Document with section text and metadata
             doc = Document(
                 page_content=section.section_text,
                 metadata={
