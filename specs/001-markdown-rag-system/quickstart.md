@@ -43,16 +43,16 @@ Create `.env` file in project root:
 ```bash
 cat > .env << EOF
 # Milvus Vector Database Configuration
-MARKDOWN_RAG_MILVUS_HOST=localhost
-MARKDOWN_RAG_MILVUS_PORT=19530
+MARKDOWN_RAG_MCP_MILVUS_HOST=localhost
+MARKDOWN_RAG_MCP_MILVUS_PORT=19530
 
 # Local Embedding Configuration
-MARKDOWN_RAG_EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-MARKDOWN_RAG_EMBEDDING_DEVICE=auto  # "cpu", "cuda", "mps", or "auto"
+MARKDOWN_RAG_MCP_EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+MARKDOWN_RAG_MCP_EMBEDDING_DEVICE=auto  # "cpu", "cuda", "mps", or "auto"
 
 # Optional: Custom configuration
-MARKDOWN_RAG_SIMILARITY_THRESHOLD=0.7
-MARKDOWN_RAG_CHUNK_SIZE_LIMIT=1000
+MARKDOWN_RAG_MCP_SIMILARITY_THRESHOLD=0.7
+MARKDOWN_RAG_MCP_CHUNK_SIZE_LIMIT=1000
 EOF
 ```
 
@@ -82,10 +82,10 @@ uv pip install -e .
 
 ```bash
 # Initialize Milvus collections and download embedding model
-markdown-rag config init
+markdown-rag-mcp config init
 
 # Verify setup (this will download the embedding model on first run)
-markdown-rag status --format json
+markdown-rag-mcp status --format json
 ```
 
 Expected output:
@@ -248,7 +248,7 @@ Expected structure:
 
 ```bash
 # Index all markdown files in ./markdown directory
-markdown-rag index ./markdown --format json
+markdown-rag-mcp index ./markdown --format json
 ```
 
 Expected output:
@@ -267,7 +267,7 @@ Expected output:
 
 ```bash
 # Check system status
-markdown-rag status --detailed --format json
+markdown-rag-mcp status --detailed --format json
 ```
 
 You should see:
@@ -282,26 +282,26 @@ You should see:
 
 ```bash
 # Search for authentication information
-markdown-rag search "how to set up OAuth2" --format human
+markdown-rag-mcp search "how to set up OAuth2" --format human
 
 # Search for API endpoints
-markdown-rag search "user API endpoints" --limit 3
+markdown-rag-mcp search "user API endpoints" --limit 3
 
 # Search with metadata included
-markdown-rag search "JWT tokens" --include-metadata --format json
+markdown-rag-mcp search "JWT tokens" --include-metadata --format json
 ```
 
 ### 5.2 Advanced Search Examples
 
 ```bash
 # Search with custom similarity threshold
-markdown-rag search "error handling" --threshold 0.6
+markdown-rag-mcp search "error handling" --threshold 0.6
 
 # Search and pipe to jq for processing
-markdown-rag search "authentication" --format json | jq '.results[0].file_path'
+markdown-rag-mcp search "authentication" --format json | jq '.results[0].file_path'
 
 # Multiple search terms
-markdown-rag search "session management security" --limit 5
+markdown-rag-mcp search "session management security" --limit 5
 ```
 
 ## Step 6: Enable File Monitoring (Optional)
@@ -310,7 +310,7 @@ markdown-rag search "session management security" --limit 5
 
 ```bash
 # Start monitoring in background
-markdown-rag index ./markdown --watch &
+markdown-rag-mcp index ./markdown --watch &
 
 # Monitor process ID for later stopping
 MONITOR_PID=$!
@@ -333,7 +333,7 @@ EOF
 
 # Check that new content is indexed (wait ~30 seconds)
 sleep 30
-markdown-rag search "security best practices"
+markdown-rag-mcp search "security best practices"
 ```
 
 ### 6.3 Stop Monitoring
@@ -351,8 +351,8 @@ Create `test_core_library.py`:
 
 ```python
 import asyncio
-from markdown_rag.core import RAGEngine
-from markdown_rag.config import RAGConfig
+from markdown_rag_mcp.core import RAGEngine
+from markdown_rag_mcp.config import RAGConfig
 
 async def test_core_library():
     # Method 1: Use configuration object
@@ -393,7 +393,7 @@ Create `extended_usage.py` to demonstrate extensibility:
 
 ```python
 import asyncio
-from markdown_rag.core import RAGEngine, IRAGEngine
+from markdown_rag_mcp.core import RAGEngine, IRAGEngine
 from typing import Dict, List, Any
 
 class CustomRAGWrapper:
@@ -451,15 +451,15 @@ This pattern shows how the core library can be extended for specific use cases w
 
 ```bash
 # Extract all unique file paths from search results
-markdown-rag search "API" --format json | \
+markdown-rag-mcp search "API" --format json | \
   jq -r '.results[] | .file_path' | sort -u
 
 # Get confidence scores above 0.8
-markdown-rag search "authentication" --format json | \
+markdown-rag-mcp search "authentication" --format json | \
   jq '.results[] | select(.confidence_score > 0.8) | {file: .file_path, score: .confidence_score}'
 
 # Count results per file
-markdown-rag search "configuration" --format json | \
+markdown-rag-mcp search "configuration" --format json | \
   jq '.results | group_by(.file_path) | map({file: .[0].file_path, count: length})'
 ```
 
@@ -494,20 +494,20 @@ ls -la ~/.cache/huggingface/
 rm -rf ~/.cache/huggingface/transformers/
 
 # Re-initialize to re-download model
-markdown-rag config init --force
+markdown-rag-mcp config init --force
 ```
 
 #### No Search Results
 
 ```bash
 # Check if files are indexed
-markdown-rag status --detailed
+markdown-rag-mcp status --detailed
 
 # Verify similarity threshold
-markdown-rag search "your query" --threshold 0.5
+markdown-rag-mcp search "your query" --threshold 0.5
 
 # Re-index with force flag
-markdown-rag index ./markdown --force
+markdown-rag-mcp index ./markdown --force
 ```
 
 #### Permission Errors
@@ -524,14 +524,14 @@ chmod -R 755 ./markdown/
 
 ```bash
 # Show command help
-markdown-rag --help
-markdown-rag search --help
+markdown-rag-mcp --help
+markdown-rag-mcp search --help
 
 # Show configuration
-markdown-rag config show
+markdown-rag-mcp config show
 
 # Validate configuration
-markdown-rag validate ./markdown
+markdown-rag-mcp validate ./markdown
 ```
 
 ## Next Steps
@@ -547,7 +547,7 @@ markdown-rag validate ./markdown
 - **Batch Indexing**: Use `--force` flag only when necessary to avoid re-processing unchanged files
 - **Similarity Tuning**: Start with 0.7 threshold, lower to 0.5-0.6 for broader results
 - **File Organization**: Use meaningful directory structure and frontmatter for better search results
-- **Hardware Acceleration**: Set `MARKDOWN_RAG_EMBEDDING_DEVICE=cuda` if you have a GPU for faster embeddings
+- **Hardware Acceleration**: Set `MARKDOWN_RAG_MCP_EMBEDDING_DEVICE=cuda` if you have a GPU for faster embeddings
 - **Resource Management**: Monitor Milvus memory usage and embedding model cache size
 - **Index Optimization**: Tune Milvus index parameters (nlist, nprobe) for your dataset size
 

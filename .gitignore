@@ -206,4 +206,7 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
+# Test watch directory
+test_markdown/
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,python
