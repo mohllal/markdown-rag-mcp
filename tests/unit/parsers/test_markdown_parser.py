@@ -11,10 +11,9 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
-
-from src.markdown_rag_mcp.models.document import Document, ProcessingStatus
-from src.markdown_rag_mcp.models.exceptions import DocumentParsingError
-from src.markdown_rag_mcp.parsers.markdown_parser import MarkdownParser
+from markdown_rag_mcp.models.document import Document, ProcessingStatus
+from markdown_rag_mcp.models.exceptions import DocumentParsingError
+from markdown_rag_mcp.parsers.markdown_parser import MarkdownParser
 
 
 class TestMarkdownParser:

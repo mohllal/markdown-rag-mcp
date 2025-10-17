@@ -4,14 +4,13 @@ from datetime import UTC, datetime
 from uuid import UUID, uuid4
 
 import pytest
-from pydantic import ValidationError
-
-from src.markdown_rag_mcp.models.document import (
+from markdown_rag_mcp.models.document import (
     Document,
     DocumentSection,
     ProcessingStatus,
     SectionType,
 )
+from pydantic import ValidationError
 
 
 class TestDocumentSection:

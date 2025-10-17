@@ -10,8 +10,8 @@ from collections.abc import AsyncIterator
 from pathlib import Path
 from typing import Any
 
-from src.markdown_rag_mcp.models.document import Document, DocumentSection
-from src.markdown_rag_mcp.models.query import QueryResult
+from markdown_rag_mcp.models.document import Document, DocumentSection
+from markdown_rag_mcp.models.query import QueryResult
 
 
 class IDocumentParser(ABC):

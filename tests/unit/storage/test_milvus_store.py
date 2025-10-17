@@ -5,12 +5,11 @@ from uuid import uuid4
 
 import pytest
 from langchain_core.documents import Document
-
-from src.markdown_rag_mcp.config.settings import RAGConfig
-from src.markdown_rag_mcp.models.document import DocumentSection, SectionType
-from src.markdown_rag_mcp.models.exceptions import VectorStoreError
-from src.markdown_rag_mcp.models.query import QueryResult
-from src.markdown_rag_mcp.storage.milvus_store import MilvusVectorStore
+from markdown_rag_mcp.config.settings import RAGConfig
+from markdown_rag_mcp.models.document import DocumentSection, SectionType
+from markdown_rag_mcp.models.exceptions import VectorStoreError
+from markdown_rag_mcp.models.query import QueryResult
+from markdown_rag_mcp.storage.milvus_store import MilvusVectorStore
 
 
 class TestMilvusVectorStore:
@@ -77,7 +76,7 @@ class TestMilvusVectorStore:
         assert vector_store._vectorstore is None
 
     @pytest.mark.asyncio
-    @patch("src.markdown_rag_mcp.storage.milvus_store.Milvus")
+    @patch("markdown_rag_mcp.storage.milvus_store.Milvus")
     async def test_initialize_collections_success(self, mock_milvus_class, vector_store):
         """Test successful collection initialization."""
         # Mock the Milvus class constructor
@@ -102,7 +101,7 @@ class TestMilvusVectorStore:
         assert call_args[1]["drop_old"] is False
 
     @pytest.mark.asyncio
-    @patch("src.markdown_rag_mcp.storage.milvus_store.Milvus")
+    @patch("markdown_rag_mcp.storage.milvus_store.Milvus")
     async def test_initialize_collections_already_initialized(self, mock_milvus_class, vector_store):
         """Test that re-initialization is skipped when already initialized."""
         # Set up as already initialized
@@ -115,7 +114,7 @@ class TestMilvusVectorStore:
         mock_milvus_class.assert_not_called()
 
     @pytest.mark.asyncio
-    @patch("src.markdown_rag_mcp.storage.milvus_store.Milvus")
+    @patch("markdown_rag_mcp.storage.milvus_store.Milvus")
     async def test_initialize_collections_failure(self, mock_milvus_class, vector_store):
         """Test initialization failure handling."""
         # Make Milvus constructor raise an exception
@@ -591,7 +590,7 @@ class TestMilvusVectorStore:
         vector_store._vectorstore = Mock()
 
         # Make the logger.error method raise an exception
-        with patch("src.markdown_rag_mcp.storage.milvus_store.logger") as mock_logger:
+        with patch("markdown_rag_mcp.storage.milvus_store.logger") as mock_logger:
             mock_logger.error.side_effect = Exception("Logging failed")
 
             # The current implementation doesn't raise VectorStoreError in cleanup,

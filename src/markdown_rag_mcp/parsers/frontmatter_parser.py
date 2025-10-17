@@ -12,7 +12,7 @@ from typing import Any
 
 import frontmatter
 
-from src.markdown_rag_mcp.models.exceptions import ParsingError
+from markdown_rag_mcp.models.exceptions import ParsingError
 
 logger = logging.getLogger(__name__)
 

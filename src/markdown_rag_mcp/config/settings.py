@@ -15,7 +15,7 @@ import torch
 from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from src.markdown_rag_mcp.models.exceptions import ConfigurationError
+from markdown_rag_mcp.models.exceptions import ConfigurationError
 
 
 class LogLevel(str, Enum):

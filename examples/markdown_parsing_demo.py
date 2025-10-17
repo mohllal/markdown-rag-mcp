@@ -12,16 +12,10 @@ Usage:
 
 import asyncio
 import logging
-import sys
 from pathlib import Path
 
 import click
-
-# Add the project root to Python path for imports
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
-
-from src.markdown_rag_mcp.parsers.markdown_parser import MarkdownParser  # noqa: E402
+from markdown_rag_mcp.parsers.markdown_parser import MarkdownParser
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

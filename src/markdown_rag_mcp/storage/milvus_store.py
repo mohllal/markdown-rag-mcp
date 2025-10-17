@@ -8,11 +8,11 @@ from typing import Any
 from langchain_core.documents import Document
 from langchain_milvus import Milvus
 
-from src.markdown_rag_mcp.config.settings import RAGConfig
-from src.markdown_rag_mcp.core.interfaces import IEmbeddingProvider, IVectorStore
-from src.markdown_rag_mcp.models.document import DocumentSection
-from src.markdown_rag_mcp.models.exceptions import VectorStoreError
-from src.markdown_rag_mcp.models.query import QueryResult
+from markdown_rag_mcp.config.settings import RAGConfig
+from markdown_rag_mcp.core.interfaces import IEmbeddingProvider, IVectorStore
+from markdown_rag_mcp.models.document import DocumentSection
+from markdown_rag_mcp.models.exceptions import VectorStoreError
+from markdown_rag_mcp.models.query import QueryResult
 
 logger = logging.getLogger(__name__)
 

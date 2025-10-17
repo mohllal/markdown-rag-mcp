@@ -4,15 +4,14 @@ from datetime import datetime
 from uuid import UUID, uuid4
 
 import pytest
-from pydantic import ValidationError
-
-from src.markdown_rag_mcp.models.query import (
+from markdown_rag_mcp.models.query import (
     OutputFormat,
     QueryResult,
     SearchRequest,
     SearchResponse,
     SortOrder,
 )
+from pydantic import ValidationError
 
 
 class TestQueryResult:
