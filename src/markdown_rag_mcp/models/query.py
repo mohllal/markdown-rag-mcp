@@ -118,7 +118,7 @@ class SearchRequest(BaseModel):
 
     query: str = Field(..., min_length=1, description="Natural language search query")
     limit: int = Field(default=10, ge=1, le=100, description="Maximum results to return")
-    similarity_threshold: float = Field(default=0.7, ge=0.0, le=1.0, description="Minimum similarity score")
+    similarity_threshold: float = Field(default=0.4, ge=0.0, le=1.0, description="Minimum similarity score")
     include_metadata: bool = Field(default=False, description="Include document metadata in results")
     metadata_filters: dict[str, Any] = Field(default_factory=dict, description="Metadata filtering criteria")
     sort_order: SortOrder = Field(default=SortOrder.RELEVANCE, description="Result sorting preference")
