@@ -209,4 +209,7 @@ pyrightconfig.json
 # Test watch directory
 test_markdown/
 
+# VSCode configuration
+.vscode/
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,python

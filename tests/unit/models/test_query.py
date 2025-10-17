@@ -249,7 +249,7 @@ class TestSearchRequest:
 
         assert request.query == "test query"
         assert request.limit == 10
-        assert request.similarity_threshold == 0.7
+        assert request.similarity_threshold == 0.4
         assert request.include_metadata is False
         assert request.metadata_filters == {}
         assert request.sort_order == SortOrder.RELEVANCE

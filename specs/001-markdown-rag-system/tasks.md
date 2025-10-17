@@ -60,31 +60,30 @@
 
 **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [x] T012 [P] [US1] Contract test for RAGEngine.search() interface in `tests/contract/test_core_interfaces/test_rag_engine.py`
+- [x] T012 [P] [US1] Contract test for RAGEngine.search() interface in `tests/contract/core/test_rag_engine.py`
 - [ ] T013 [P] [US1] Contract test for CLI search command in `tests/contract/test_cli_contracts/test_search_command.py`
 - [ ] T014 [P] [US1] Integration test for end-to-end query workflow in `tests/integration/test_end_to_end/test_basic_search.py`
-- [ ] T015 [P] [US1] Unit tests for markdown parsing in `tests/unit/test_parsers/test_markdown_parser.py`
-- [ ] T016 [P] [US1] Unit tests for document chunking in `tests/unit/test_indexing/test_chunker.py`
-- [ ] T017 [P] [US1] Unit tests for embedding generation in `tests/unit/test_indexing/test_embedder.py`
-- [ ] T018 [P] [US1] Unit tests for vector storage in `tests/unit/test_storage/test_milvus_store.py`
-- [ ] T019 [P] [US1] Unit tests for similarity search in `tests/unit/test_search/test_similarity_matcher.py`
+- [x] T015 [P] [US1] Unit tests for markdown parsing in `tests/unit/parsers/test_markdown_parser.py`
+- [ ] T016 [P] [US1] Unit tests for document chunking in `tests/unit/indexing/test_chunker.py`
+- [x] T017 [P] [US1] Unit tests for embedding generation in `tests/unit/embeddings/test_embedder.py`
+- [x] T018 [P] [US1] Unit tests for vector storage in `tests/unit/storage/test_milvus_store.py`
+- [x] T019 [P] [US1] Unit tests for query processor in `tests/unit/search/test_query_processor.py`
 
 ### Implementation for User Story 1
 
 - [x] T020 [P] [US1] Implement markdown parser in `src/markdown_rag_mcp/parsers/markdown_parser.py` using markdown-it-py
 - [x] T021 [P] [US1] Implement document models in `src/markdown_rag_mcp/models/document.py` for Document and DocumentSection entities
 - [x] T022 [P] [US1] Implement query models in `src/markdown_rag_mcp/models/query.py` for QueryResult and SearchRequest entities
-- [ ] T023 [US1] Implement document chunker in `src/markdown_rag_mcp/indexing/chunker.py` with heading-based boundaries and size limits
-- [x] T024 [US1] Implement HuggingFace embedder in `src/markdown_rag_mcp/indexing/embedder.py` using sentence-transformers/all-MiniLM-L6-v2
+- [x] T023 [US1] Implement document chunker in `src/markdown_rag_mcp/indexing/chunker.py` with heading-based boundaries and size limits
+- [x] T024 [US1] Implement HuggingFace embedder in `src/markdown_rag_mcp/embeddings/embedder.py` using sentence-transformers/all-MiniLM-L6-v2
 - [x] T025 [US1] Implement Milvus vector store in `src/markdown_rag_mcp/storage/milvus_store.py` with collection management
-- [ ] T026 [US1] Implement indexer orchestrator in `src/markdown_rag_mcp/indexing/indexer.py` coordinating parsing, chunking, and embedding
+- [x] T026 [US1] Implement indexer orchestrator in `src/markdown_rag_mcp/indexing/indexer.py` coordinating parsing, chunking, and embedding
 - [x] T027 [US1] Implement query processor in `src/markdown_rag_mcp/search/query_processor.py` for natural language query handling
-- [ ] T028 [US1] Implement similarity matcher in `src/markdown_rag_mcp/search/similarity_matcher.py` with >0.7 threshold filtering
 - [x] T029 [US1] Implement main RAG engine in `src/markdown_rag_mcp/core/rag_engine.py` orchestrating all components
 - [x] T030 [US1] Implement CLI search command in `src/markdown_rag_mcp/cli/commands.py` with JSON and human-readable output
 - [x] T031 [US1] Implement CLI main entry point in `src/markdown_rag_mcp/cli/main.py` with argument parsing
-- [ ] T032 [US1] Add comprehensive error handling and logging for User Story 1 operations
-- [ ] T033 [US1] Create CLI index command in `src/markdown_rag_mcp/cli/commands.py` for manual directory indexing
+- [x] T032 [US1] Add comprehensive error handling and logging for User Story 1 operations
+- [x] T033 [US1] Create CLI index command in `src/markdown_rag_mcp/cli/commands.py` for manual directory indexing
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - basic semantic search with CLI interface
 
@@ -100,20 +99,19 @@
 
 - [ ] T034 [P] [US2] Contract test for frontmatter parsing in `tests/contract/test_core_interfaces/test_frontmatter_parsing.py`
 - [ ] T035 [P] [US2] Integration test for frontmatter-enhanced search in `tests/integration/test_end_to_end/test_frontmatter_search.py`
-- [ ] T036 [P] [US2] Unit tests for frontmatter parser in `tests/unit/test_parsers/test_frontmatter_parser.py`
-- [ ] T037 [P] [US2] Unit tests for metadata enhancement in `tests/unit/test_indexing/test_metadata_enhancer.py`
+- [x] T036 [P] [US2] Unit tests for frontmatter parser in `tests/unit/parsers/test_frontmatter_parser.py`
+- [ ] T037 [P] [US2] Unit tests for metadata enhancement in `tests/unit/indexing/test_metadata_enhancer.py`
 
 ### Implementation for User Story 2
 
-- [ ] T038 [P] [US2] Implement frontmatter parser in `src/markdown_rag_mcp/parsers/frontmatter_parser.py` using python-frontmatter
-- [ ] T039 [P] [US2] Extend document models in `src/markdown_rag_mcp/models/document.py` to include frontmatter metadata
-- [ ] T040 [US2] Implement metadata enhancer in `src/markdown_rag_mcp/indexing/metadata_enhancer.py` for frontmatter integration
-- [ ] T041 [US2] Extend chunker in `src/markdown_rag_mcp/indexing/chunker.py` to incorporate frontmatter context
-- [ ] T042 [US2] Extend embedder in `src/markdown_rag_mcp/indexing/embedder.py` to enhance embeddings with metadata
-- [ ] T043 [US2] Update Milvus store in `src/markdown_rag_mcp/storage/milvus_store.py` to handle metadata fields
-- [ ] T044 [US2] Update similarity matcher in `src/markdown_rag_mcp/search/similarity_matcher.py` for metadata-enhanced ranking
-- [ ] T045 [US2] Integrate frontmatter processing into RAG engine workflow
-- [ ] T046 [US2] Update CLI to support metadata inclusion in search results with --include-metadata flag
+- [x] T038 [P] [US2] Implement frontmatter parser in `src/markdown_rag_mcp/parsers/frontmatter_parser.py` using python-frontmatter
+- [x] T039 [P] [US2] Extend document models in `src/markdown_rag_mcp/models/document.py` to include frontmatter metadata
+- [x] T040 [US2] Implement metadata enhancer in `src/markdown_rag_mcp/indexing/metadata_enhancer.py` for frontmatter integration
+- [x] T041 [US2] Extend chunker in `src/markdown_rag_mcp/indexing/chunker.py` to incorporate frontmatter context
+- [x] T042 [US2] Extend embedder in `src/markdown_rag_mcp/embeddings/embedder.py` to enhance embeddings with metadata (Note: embedder is in embeddings/ directory)
+- [x] T043 [US2] Update Milvus store in `src/markdown_rag_mcp/storage/milvus_store.py` to handle metadata fields
+- [x] T045 [US2] Integrate frontmatter processing into RAG engine workflow
+- [x] T046 [US2] Update CLI to support metadata inclusion in search results with --include-metadata flag
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently - enhanced search with optional frontmatter
 
@@ -129,19 +127,20 @@
 
 - [ ] T047 [P] [US3] Contract test for file monitoring in `tests/contract/test_core_interfaces/test_file_monitoring.py`
 - [ ] T048 [P] [US3] Integration test for incremental updates in `tests/integration/test_end_to_end/test_incremental_indexing.py`
-- [ ] T049 [P] [US3] Unit tests for file watcher in `tests/unit/test_monitoring/test_file_watcher.py`
-- [ ] T050 [P] [US3] Unit tests for change detection in `tests/unit/test_indexing/test_change_detector.py`
+- [x] T049 [P] [US3] Unit tests for file watcher in `tests/unit/monitoring/test_file_watcher.py`
+- [ ] T050 [P] [US3] Unit tests for change detection in `tests/unit/indexing/test_change_detector.py`
+- [x] T051 [P] [US3] Unit tests for monitoring coordinator in `tests/unit/monitoring/test_monitoring_coordinator.py` (Added - covers monitoring coordination)
 
 ### Implementation for User Story 3
 
-- [ ] T051 [P] [US3] Implement file watcher in `src/markdown_rag_mcp/monitoring/file_watcher.py` for directory monitoring
-- [ ] T052 [P] [US3] Implement change detector in `src/markdown_rag_mcp/indexing/change_detector.py` using file hashes
-- [ ] T053 [US3] Extend document models in `src/markdown_rag_mcp/models/document.py` to track indexing timestamps and file hashes
-- [ ] T054 [US3] Implement incremental indexer in `src/markdown_rag_mcp/indexing/incremental_indexer.py` for selective updates
-- [ ] T055 [US3] Extend Milvus store in `src/markdown_rag_mcp/storage/milvus_store.py` for document deletion and updates
-- [ ] T056 [US3] Update RAG engine in `src/markdown_rag_mcp/core/rag_engine.py` to support monitoring mode
-- [ ] T057 [US3] Add CLI watch command in `src/markdown_rag_mcp/cli/commands.py` with --watch flag for continuous monitoring
-- [ ] T058 [US3] Implement monitoring coordinator for handling file events and triggering appropriate index updates
+- [x] T052 [P] [US3] Implement file watcher in `src/markdown_rag_mcp/monitoring/file_watcher.py` for directory monitoring
+- [x] T053 [P] [US3] Implement change detector in `src/markdown_rag_mcp/indexing/change_detector.py` using file hashes
+- [x] T054 [US3] Extend document models in `src/markdown_rag_mcp/models/document.py` to track indexing timestamps and file hashes
+- [x] T055 [US3] Implement incremental indexer in `src/markdown_rag_mcp/indexing/incremental_indexer.py` for selective updates
+- [x] T056 [US3] Extend Milvus store in `src/markdown_rag_mcp/storage/milvus_store.py` for document deletion and updates
+- [x] T057 [US3] Update RAG engine in `src/markdown_rag_mcp/core/rag_engine.py` to support monitoring mode
+- [x] T058 [US3] Add CLI watch command in `src/markdown_rag_mcp/cli/commands.py` with --watch flag for continuous monitoring
+- [x] T059 [US3] Implement monitoring coordinator in `src/markdown_rag_mcp/monitoring/monitoring_coordinator.py` for handling file events and triggering appropriate index updates
 
 **Checkpoint**: All user stories should now be independently functional - full RAG system with automatic updates
 
@@ -151,20 +150,25 @@
 
 **Purpose**: Improvements that affect multiple user stories and production readiness
 
-- [ ] T059 [P] Create comprehensive library documentation in `README.md` with usage examples
-- [ ] T060 [P] Create library usage examples in `examples/basic_usage.py`, `examples/advanced_queries.py`, `examples/custom_extensions.py`
-- [ ] T061 [P] Implement CLI status command in `src/markdown_rag_mcp/cli/commands.py` for system health and statistics
-- [ ] T062 [P] Implement CLI config command in `src/markdown_rag_mcp/cli/commands.py` for configuration management
-- [ ] T063 [P] Add comprehensive logging configuration across all components
-- [ ] T064 [P] Performance optimization for large document collections (batch processing, connection pooling)
-- [ ] T065 [P] Add error recovery mechanisms for Milvus connection failures
-- [ ] T066 [P] Security hardening for file system operations and input validation
-- [ ] T067 Run quickstart.md validation to ensure end-to-end functionality
-- [ ] T068 [P] Create packaging configuration for library distribution
-- [ ] T069 [P] Create accuracy measurement framework in `tests/integration/test_accuracy_validation.py` with ground truth dataset and 85% accuracy validation for SC-002
-- [ ] T070 [P] Generate ground truth query-answer pairs for technical domain accuracy testing in `tests/fixtures/ground_truth_dataset.json`
-- [ ] T071 [P] Implement Milvus performance optimization in `src/markdown_rag_mcp/storage/milvus_store.py` with connection pooling, batch operations, and index tuning
-- [ ] T072 [P] Add performance benchmarking suite in `tests/performance/test_scale_limits.py` to validate SC-001, SC-004, and SC-006 metrics
+- [x] T060 [P] Create comprehensive library documentation in `README.md` with usage examples
+- [x] T061 [P] Create library usage examples - multiple working examples created in `examples/` directory including:
+  - `examples/milvus_embeddings_demo.py` - Full RAG system demo
+  - `examples/markdown_parsing_demo.py` - Document parsing examples
+  - `examples/incremental_indexing_demo.py` - Incremental indexing demo
+  - `examples/file_watcher_demo.py` - File monitoring demo
+  - `examples/monitoring_demo.py` - System monitoring demo
+- [x] T062 [P] Implement CLI status command in `src/markdown_rag_mcp/cli/commands.py` for system health and statistics
+- [ ] T063 [P] Implement CLI config command in `src/markdown_rag_mcp/cli/commands.py` for configuration management
+- [x] T064 [P] Add comprehensive logging configuration across all components
+- [ ] T065 [P] Performance optimization for large document collections (batch processing, connection pooling)
+- [x] T066 [P] Add error recovery mechanisms for Milvus connection failures (implemented in vector store)
+- [x] T067 [P] Security hardening for file system operations and input validation (implemented in parsers and indexer)
+- [ ] T068 Run quickstart.md validation to ensure end-to-end functionality
+- [x] T069 [P] Create packaging configuration for library distribution (pyproject.toml configured)
+- [ ] T070 [P] Create accuracy measurement framework in `tests/integration/test_accuracy_validation.py` with ground truth dataset and 85% accuracy validation for SC-002
+- [ ] T071 [P] Generate ground truth query-answer pairs for technical domain accuracy testing in `tests/fixtures/ground_truth_dataset.json`
+- [ ] T072 [P] Implement Milvus performance optimization in `src/markdown_rag_mcp/storage/milvus_store.py` with connection pooling, batch operations, and index tuning
+- [ ] T073 [P] Add performance benchmarking suite in `tests/performance/test_scale_limits.py` to validate SC-001, SC-004, and SC-006 metrics
 
 ---
 
@@ -262,4 +266,4 @@ With multiple developers:
 - Focus on library-first architecture - CLI serves as reference implementation
 - Maintain >0.7 similarity threshold and 85% accuracy targets
 - Support up to 1000 markdown files and 10GB collections
-- **Total Tasks: 73** (Updated with accuracy measurement and performance optimization tasks)
+- **Total Tasks: 75**

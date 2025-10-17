@@ -80,16 +80,16 @@ specs/[###-feature]/
 
 ```plaintext
 src/
-├── markdown_rag_mcp/                    # Core library package
-│   ├── __init__.py                  # Main library exports
-│   ├── core/                        # Core RAG functionality
+├── markdown_rag_mcp/               # Core library package
+│   ├── __init__.py                 # Main library exports
+│   ├── core/                       # Core RAG functionality
 │   │   ├── __init__.py
 │   │   ├── rag_engine.py           # Main RAG orchestration class
 │   │   └── interfaces.py           # Abstract interfaces for extensibility
 │   ├── models/                     # Data models and schemas
 │   │   ├── __init__.py
 │   │   ├── document.py
-│   │   ├── embedding.py
+│   │   ├── exceptions.py
 │   │   └── query.py
 │   ├── parsers/                     # Document parsing components
 │   │   ├── __init__.py
@@ -98,19 +98,24 @@ src/
 │   ├── indexing/                    # Document processing and chunking
 │   │   ├── __init__.py
 │   │   ├── chunker.py
+│   │   ├── indexer.py
+│   │   ├── incremental_indexer.py
+│   │   ├── change_detector.py
+│   │   └── metadata_enhancer.py
+│   ├── embeddings/                  # Embedding generation components
+│   │   ├── __init__.py
 │   │   ├── embedder.py
-│   │   └── indexer.py
+│   │   └── langchain_adapter.py
 │   ├── storage/                     # Vector database abstraction
 │   │   ├── __init__.py
 │   │   ├── milvus_store.py
-│   │   └── base_store.py
 │   ├── search/                      # Query processing and retrieval
 │   │   ├── __init__.py
 │   │   ├── query_processor.py
-│   │   └── similarity_matcher.py
 │   ├── monitoring/                  # File system monitoring
 │   │   ├── __init__.py
-│   │   └── file_watcher.py
+│   │   ├── file_watcher.py
+│   │   └── monitoring_coordinator.py
 │   ├── cli/                         # Command-line interface
 │   │   ├── __init__.py
 │   │   ├── commands.py
@@ -121,30 +126,33 @@ src/
 
 tests/
 ├── unit/                            # Unit tests for library components
-│   ├── test_core/
-│   ├── test_parsers/
-│   ├── test_indexing/
-│   ├── test_storage/
-│   ├── test_search/
-│   └── test_monitoring/
+│   ├── embeddings/
+│   ├── models/
+│   ├── parsers/
+│   ├── storage/
+│   ├── search/
+│   └── monitoring/
 ├── integration/                     # Integration tests
 │   ├── test_end_to_end/
 │   └── test_milvus_integration/
 └── contract/                        # Library interface contract tests
-    ├── test_core_interfaces/
+    ├── core/
     └── test_cli_contracts/
 
-docker/                              # Containerization setup
+docker/                             # Containerization setup
 ├── docker-compose.yml              # Milvus + dependencies
 └── Dockerfile.dev                  # Development environment
 
-examples/                            # Library usage examples
-├── basic_usage.py
-├── advanced_queries.py
-└── custom_extensions.py
+examples/                           # Library usage examples (Comprehensive demos implemented)
+├── milvus_embeddings_demo.py       # Full RAG system demonstration
+├── markdown_parsing_demo.py        # Document parsing examples
+├── incremental_indexing_demo.py    # Incremental update functionality
+├── file_watcher_demo.py            # File monitoring capabilities
+├── monitoring_demo.py              # System monitoring features
+└── README.md                       # Examples documentation
 
-pyproject.toml                       # Package configuration
-README.md                            # Library documentation
+pyproject.toml                      # Package configuration
+README.md                           # Library documentation
 ```
 
 **Structure Decision**: Pure library architecture with clear separation between core functionality, CLI interface, and future extension points.
