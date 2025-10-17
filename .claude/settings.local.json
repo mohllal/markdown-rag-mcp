@@ -1,16 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(.specify/scripts/bash/create-new-feature.sh:*)",
       "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(.specify/scripts/bash/create-new-feature.sh:*)",
       "Bash(.specify/scripts/bash/setup-plan.sh:*)",
+      "Bash(.specify/scripts/bash/check-prerequisites.sh:*)",
       "Bash(pip:*)",
       "Bash(python:*)",
       "Edit(*)",
       "Write(*)",
       "mcp__context7__*",
-      "mcp__github__*",
-      "Bash(.specify/scripts/bash/check-prerequisites.sh:*)"
+      "mcp__github__*"
     ],
     "deny": [],
     "ask": []

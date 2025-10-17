@@ -22,6 +22,7 @@ class TestMilvusVectorStore:
         config.milvus_host = "localhost"
         config.milvus_port = 19530
         config.embedding_model = "sentence-transformers/all-MiniLM-L6-v2"
+        config.milvus_db_name = "markdown_rag"
         config.milvus_metric_type = "COSINE"
         return config
 

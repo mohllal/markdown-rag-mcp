@@ -7,6 +7,7 @@ from typing import Any
 
 from langchain_core.documents import Document
 from langchain_milvus import Milvus
+from pymilvus import MilvusClient
 
 from markdown_rag_mcp.config.settings import RAGConfig
 from markdown_rag_mcp.core.interfaces import IEmbeddingProvider, IVectorStore
@@ -43,6 +44,9 @@ class MilvusVectorStore(IVectorStore):
             return
 
         try:
+            # First, create database if it doesn't exist
+            await self._ensure_database_exists()
+
             # Build connection arguments for Milvus
             connection_args = {
                 "uri": f"http://{self.config.milvus_host}:{self.config.milvus_port}",
@@ -66,6 +70,33 @@ class MilvusVectorStore(IVectorStore):
             raise VectorStoreError(
                 f"Failed to initialize Milvus vector store: {e}",
                 operation="initialize_collections",
+                underlying_error=e,
+            ) from e
+
+    async def _ensure_database_exists(self) -> None:
+        """Ensure the markdown_rag database exists, create if it doesn't."""
+        try:
+            # Create a client connection to check/create database
+            client = MilvusClient(uri=f"http://{self.config.milvus_host}:{self.config.milvus_port}")
+
+            # List existing databases
+            databases = client.list_databases()
+
+            if self.config.milvus_db_name not in databases:
+                logger.info("Creating markdown_rag database...")
+                client.create_database(db_name=self.config.milvus_db_name)
+                logger.info("Database '%s' created successfully", self.config.milvus_db_name)
+            else:
+                logger.info("Database '%s' already exists", self.config.milvus_db_name)
+
+            # Close the client connection
+            client.close()
+
+        except Exception as e:
+            logger.error("Failed to ensure database exists: %s", e)
+            raise VectorStoreError(
+                f"Failed to create database: {e}",
+                operation="ensure_database_exists",
                 underlying_error=e,
             ) from e
 

@@ -58,7 +58,7 @@ class RAGConfig(BaseSettings):
     milvus_port: int = Field(default=19530, ge=1, le=65535, description="Milvus server port")
     milvus_user: str | None = Field(default=None, description="Milvus username (if authentication enabled)")
     milvus_password: str | None = Field(default=None, description="Milvus password (if authentication enabled)")
-    milvus_db_name: str = Field(default="default", description="Milvus database name")
+    milvus_db_name: str = Field(default="markdown_rag", description="Milvus database name")
     milvus_collection_prefix: str = Field(default="markdown_rag_mcp", description="Prefix for Milvus collection names")
     milvus_connection_timeout: int = Field(default=30, ge=5, le=300, description="Connection timeout in seconds")
     milvus_metric_type: str = Field(default="COSINE", description="Milvus distance metric type (COSINE, L2, IP)")
