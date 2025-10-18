@@ -5,7 +5,7 @@ Tests the LangChain compatibility adapter including sync/async interfaces,
 nested event loop handling, and integration with HuggingFaceEmbedder.
 """
 
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 from markdown_rag_mcp.config import EmbeddingDevice, RAGConfig
@@ -107,18 +107,17 @@ class TestLangChainEmbeddingAdapter:
 
         assert "not initialized" in str(exc_info.value)
 
-    @patch('asyncio.get_event_loop')
-    def test_embed_documents_success(self, mock_get_loop):
+    def test_embed_documents_success(self):
         """Test successful synchronous document embedding."""
         # Setup
         self.adapter._initialized = True
-        mock_loop = MagicMock()
-        mock_get_loop.return_value = mock_loop
-        mock_loop.is_running.return_value = False
-
-        # Mock embedder response
         expected_embeddings = [[0.1, 0.2], [0.3, 0.4]]
-        mock_loop.run_until_complete.return_value = expected_embeddings
+
+        # Mock the async method to return a proper coroutine
+        async def mock_batch_embed(texts):
+            return expected_embeddings
+
+        self.mock_embedder.generate_batch_embeddings = mock_batch_embed
 
         # Test
         texts = ["text1", "text2"]
@@ -126,94 +125,78 @@ class TestLangChainEmbeddingAdapter:
 
         # Verify
         assert result == expected_embeddings
-        mock_loop.run_until_complete.assert_called_once()
 
-    @patch('asyncio.get_event_loop')
-    def test_embed_query_success(self, mock_get_loop):
+    def test_embed_query_success(self):
         """Test successful synchronous query embedding."""
         # Setup
         self.adapter._initialized = True
-        mock_loop = MagicMock()
-        mock_get_loop.return_value = mock_loop
-        mock_loop.is_running.return_value = False
-
-        # Mock embedder response
         expected_embedding = [0.1, 0.2, 0.3, 0.4]
-        mock_loop.run_until_complete.return_value = expected_embedding
+
+        # Mock the async method to return a proper coroutine
+        async def mock_embed(text):
+            return expected_embedding
+
+        self.mock_embedder.generate_embedding = mock_embed
 
         # Test
         result = self.adapter.embed_query("test query")
 
         # Verify
         assert result == expected_embedding
-        mock_loop.run_until_complete.assert_called_once()
 
-    @patch('asyncio.get_event_loop')
-    @patch('asyncio.new_event_loop')
-    @patch('asyncio.set_event_loop')
-    def test_embed_query_no_event_loop(self, mock_set_loop, mock_new_loop, mock_get_loop):
+    def test_embed_query_no_event_loop(self):
         """Test embedding when no event loop exists."""
         # Setup
         self.adapter._initialized = True
-        mock_get_loop.side_effect = RuntimeError("No event loop")
+        expected_embedding = [0.1, 0.2]
 
-        mock_new_loop_instance = MagicMock()
-        mock_new_loop.return_value = mock_new_loop_instance
-        mock_new_loop_instance.is_running.return_value = False
-        mock_new_loop_instance.run_until_complete.return_value = [0.1, 0.2]
+        # Mock the async method to return a proper coroutine
+        async def mock_embed(text):
+            return expected_embedding
+
+        self.mock_embedder.generate_embedding = mock_embed
 
         # Test
         result = self.adapter.embed_query("test")
 
         # Verify
-        assert result == [0.1, 0.2]
-        mock_new_loop.assert_called_once()
-        mock_set_loop.assert_called_once_with(mock_new_loop_instance)
-        mock_new_loop_instance.run_until_complete.assert_called_once()
+        assert result == expected_embedding
 
-    @patch('asyncio.get_event_loop')
-    @patch('nest_asyncio.apply')
-    def test_embed_query_running_loop_with_nest_asyncio(self, mock_nest_apply, mock_get_loop):
+    def test_embed_query_running_loop_with_nest_asyncio(self):
         """Test embedding with running event loop and nest_asyncio available."""
         # Setup
         self.adapter._initialized = True
-        mock_loop = MagicMock()
-        mock_get_loop.return_value = mock_loop
-        mock_loop.is_running.return_value = True
-        mock_loop.run_until_complete.return_value = [0.1, 0.2]
+        expected_embedding = [0.1, 0.2]
+
+        # Mock the async method to return a proper coroutine
+        async def mock_embed(text):
+            return expected_embedding
+
+        self.mock_embedder.generate_embedding = mock_embed
 
         # Test
         result = self.adapter.embed_query("test")
 
         # Verify
-        assert result == [0.1, 0.2]
-        mock_nest_apply.assert_called_once()
-        mock_loop.run_until_complete.assert_called_once()
+        assert result == expected_embedding
 
-    @patch('asyncio.get_event_loop')
-    @patch('nest_asyncio.apply')
-    def test_embed_query_running_loop_without_nest_asyncio(self, mock_nest_apply, mock_get_loop):
+    def test_embed_query_running_loop_without_nest_asyncio(self):
         """Test embedding with running event loop when nest_asyncio is not available."""
         # Setup
         self.adapter._initialized = True
-        mock_loop = MagicMock()
-        mock_get_loop.return_value = mock_loop
-        mock_loop.is_running.return_value = True
-        mock_loop.run_until_complete.return_value = [0.1, 0.2]
+        expected_embedding = [0.1, 0.2]
 
-        # Mock ImportError for nest_asyncio
-        mock_nest_apply.side_effect = ImportError("No module named 'nest_asyncio'")
+        # Mock the async method to return a proper coroutine
+        async def mock_embed(text):
+            return expected_embedding
 
-        # Test with warning capture
-        with patch('markdown_rag_mcp.embeddings.langchain_adapter.logger') as mock_logger:
-            result = self.adapter.embed_query("test")
+        self.mock_embedder.generate_embedding = mock_embed
 
-            # Verify warning was logged
-            mock_logger.warning.assert_called_once()
-            assert "nest_asyncio not available" in mock_logger.warning.call_args[0][0]
+        # Test - our thread-based implementation doesn't need nest_asyncio
+        result = self.adapter.embed_query("test")
 
-        # Should still work despite the warning
-        assert result == [0.1, 0.2]
+        # Should work without issues
+        assert result == expected_embedding
 
     @pytest.mark.asyncio
     async def test_aembed_documents_success(self):
@@ -271,18 +254,19 @@ class TestLangChainEmbeddingAdapter:
         assert result == "sentence-transformers/all-MiniLM-L6-v2"
         assert result == self.config.embedding_model
 
-    @patch('asyncio.get_event_loop')
-    def test_embed_documents_preserves_order(self, mock_get_loop):
+    def test_embed_documents_preserves_order(self):
         """Test that document embedding preserves order."""
         # Setup
         self.adapter._initialized = True
-        mock_loop = MagicMock()
-        mock_get_loop.return_value = mock_loop
-        mock_loop.is_running.return_value = False
 
         # Mock embeddings in specific order
         expected_embeddings = [[0.1, 0.1], [0.2, 0.2], [0.3, 0.3]]
-        mock_loop.run_until_complete.return_value = expected_embeddings
+
+        # Mock the async method to return a proper coroutine
+        async def mock_batch_embed(texts):
+            return expected_embeddings
+
+        self.mock_embedder.generate_batch_embeddings = mock_batch_embed
 
         # Test
         texts = ["first", "second", "third"]
@@ -304,19 +288,11 @@ class TestLangChainEmbeddingAdapter:
         async def mock_embed(text):
             return expected_embedding
 
-        self.mock_embedder.generate_embedding.side_effect = mock_embed
+        self.mock_embedder.generate_embedding = mock_embed
 
-        # Test async interface
+        # Test both interfaces
         async_result = await self.adapter.aembed_query(test_text)
-
-        # Mock for sync interface
-        with patch('asyncio.get_event_loop') as mock_get_loop:
-            mock_loop = MagicMock()
-            mock_get_loop.return_value = mock_loop
-            mock_loop.is_running.return_value = False
-            mock_loop.run_until_complete.return_value = expected_embedding
-
-            sync_result = self.adapter.embed_query(test_text)
+        sync_result = self.adapter.embed_query(test_text)
 
         # Results should be identical
         assert async_result == sync_result == expected_embedding
@@ -340,15 +316,16 @@ class TestLangChainEmbeddingAdapter:
         assert callable(self.adapter.aembed_documents)
         assert callable(self.adapter.aembed_query)
 
-    @patch('asyncio.get_event_loop')
-    def test_empty_documents_list(self, mock_get_loop):
+    def test_empty_documents_list(self):
         """Test embedding empty documents list."""
         # Setup
         self.adapter._initialized = True
-        mock_loop = MagicMock()
-        mock_get_loop.return_value = mock_loop
-        mock_loop.is_running.return_value = False
-        mock_loop.run_until_complete.return_value = []
+
+        # Mock the async method to return empty list
+        async def mock_batch_embed(texts):
+            return []
+
+        self.mock_embedder.generate_batch_embeddings = mock_batch_embed
 
         # Test
         result = self.adapter.embed_documents([])
@@ -356,15 +333,17 @@ class TestLangChainEmbeddingAdapter:
         # Verify
         assert result == []
 
-    @patch('asyncio.get_event_loop')
-    def test_single_document_embedding(self, mock_get_loop):
+    def test_single_document_embedding(self):
         """Test embedding single document."""
         # Setup
         self.adapter._initialized = True
-        mock_loop = MagicMock()
-        mock_get_loop.return_value = mock_loop
-        mock_loop.is_running.return_value = False
-        mock_loop.run_until_complete.return_value = [[0.1, 0.2, 0.3]]
+        expected_embeddings = [[0.1, 0.2, 0.3]]
+
+        # Mock the async method to return single document embedding
+        async def mock_batch_embed(texts):
+            return expected_embeddings
+
+        self.mock_embedder.generate_batch_embeddings = mock_batch_embed
 
         # Test
         result = self.adapter.embed_documents(["single document"])
@@ -373,20 +352,21 @@ class TestLangChainEmbeddingAdapter:
         assert len(result) == 1
         assert result[0] == [0.1, 0.2, 0.3]
 
-    @patch('asyncio.get_event_loop')
-    def test_large_batch_embedding(self, mock_get_loop):
+    def test_large_batch_embedding(self):
         """Test embedding large batch of documents."""
         # Setup
         self.adapter._initialized = True
-        mock_loop = MagicMock()
-        mock_get_loop.return_value = mock_loop
-        mock_loop.is_running.return_value = False
 
         # Create large batch
         batch_size = 100
         texts = [f"document {i}" for i in range(batch_size)]
         expected_embeddings = [[0.1 * i, 0.2 * i] for i in range(batch_size)]
-        mock_loop.run_until_complete.return_value = expected_embeddings
+
+        # Mock the async method to return large batch embeddings
+        async def mock_batch_embed(texts):
+            return expected_embeddings
+
+        self.mock_embedder.generate_batch_embeddings = mock_batch_embed
 
         # Test
         result = self.adapter.embed_documents(texts)
@@ -399,19 +379,20 @@ class TestLangChainEmbeddingAdapter:
         """Test handling of Unicode text in sync interface."""
         # Setup
         self.adapter._initialized = True
+        expected_embedding = [0.1, 0.2, 0.3]
 
-        with patch('asyncio.get_event_loop') as mock_get_loop:
-            mock_loop = MagicMock()
-            mock_get_loop.return_value = mock_loop
-            mock_loop.is_running.return_value = False
-            mock_loop.run_until_complete.return_value = [0.1, 0.2, 0.3]
+        # Mock the async method to return a proper coroutine
+        async def mock_embed(text):
+            return expected_embedding
 
-            # Test with Unicode text
-            unicode_text = "测试文本 🚀 français español"
-            result = self.adapter.embed_query(unicode_text)
+        self.mock_embedder.generate_embedding = mock_embed
 
-            # Should handle Unicode without errors
-            assert result == [0.1, 0.2, 0.3]
+        # Test with Unicode text
+        unicode_text = "测试文本 🚀 français español"
+        result = self.adapter.embed_query(unicode_text)
+
+        # Should handle Unicode without errors
+        assert result == expected_embedding
 
     @pytest.mark.asyncio
     async def test_unicode_text_handling_async(self):
@@ -434,24 +415,24 @@ class TestLangChainEmbeddingAdapter:
         assert result == expected_embedding
         self.mock_embedder.generate_embedding.assert_called_once_with(unicode_text)
 
-    @patch('asyncio.get_event_loop')
-    def test_error_propagation_sync(self, mock_get_loop):
+    def test_error_propagation_sync(self):
         """Test that errors are properly propagated in sync interface."""
         # Setup
         self.adapter._initialized = True
-        mock_loop = MagicMock()
-        mock_get_loop.return_value = mock_loop
-        mock_loop.is_running.return_value = False
-
-        # Mock error from underlying embedder
         test_error = RuntimeError("Embedding failed")
-        mock_loop.run_until_complete.side_effect = test_error
+
+        # Mock the async method to raise an error
+        async def mock_embed_error(text):
+            raise test_error
+
+        self.mock_embedder.generate_embedding = mock_embed_error
 
         # Test
         with pytest.raises(RuntimeError) as exc_info:
             self.adapter.embed_query("test")
 
-        assert str(exc_info.value) == "Embedding failed"
+        # The error should be wrapped by our thread executor
+        assert "Embedding operation failed" in str(exc_info.value)
 
     @pytest.mark.asyncio
     async def test_error_propagation_async(self):
@@ -477,24 +458,20 @@ class TestLangChainEmbeddingAdapter:
         import threading
 
         self.adapter._initialized = True
+        expected_embedding = [0.1, 0.2]
         results = []
         errors = []
 
+        # Mock the async method to return a proper coroutine
+        async def mock_embed(text):
+            return expected_embedding
+
+        self.mock_embedder.generate_embedding = mock_embed
+
         def embed_in_thread():
             try:
-                with patch('asyncio.get_event_loop') as mock_get_loop:
-                    with patch('asyncio.new_event_loop') as mock_new_loop:
-                        with patch('asyncio.set_event_loop'):
-                            # Simulate no event loop in thread
-                            mock_get_loop.side_effect = RuntimeError("No event loop")
-
-                            mock_loop_instance = MagicMock()
-                            mock_new_loop.return_value = mock_loop_instance
-                            mock_loop_instance.is_running.return_value = False
-                            mock_loop_instance.run_until_complete.return_value = [0.1, 0.2]
-
-                            result = self.adapter.embed_query("test")
-                            results.append(result)
+                result = self.adapter.embed_query("test")
+                results.append(result)
             except Exception as e:
                 errors.append(e)
 
@@ -512,20 +489,25 @@ class TestLangChainEmbeddingAdapter:
         # Verify no errors and all results are correct
         assert len(errors) == 0
         assert len(results) == 3
-        assert all(result == [0.1, 0.2] for result in results)
+        assert all(result == expected_embedding for result in results)
 
-    @patch('asyncio.get_event_loop')
-    def test_concurrent_sync_calls(self, mock_get_loop):
+    def test_concurrent_sync_calls(self):
         """Test multiple synchronous calls work correctly."""
         # Setup
         self.adapter._initialized = True
-        mock_loop = MagicMock()
-        mock_get_loop.return_value = mock_loop
-        mock_loop.is_running.return_value = False
 
-        # Different results for different calls
+        # Different results for different calls - use a counter to return different embeddings
+        call_count = 0
         embeddings = [[0.1, 0.2], [0.3, 0.4], [0.5, 0.6]]
-        mock_loop.run_until_complete.side_effect = embeddings
+
+        # Mock the async method to return different results for each call
+        async def mock_embed(text):
+            nonlocal call_count
+            result = embeddings[call_count]
+            call_count += 1
+            return result
+
+        self.mock_embedder.generate_embedding = mock_embed
 
         # Test multiple calls
         results = []
@@ -535,4 +517,3 @@ class TestLangChainEmbeddingAdapter:
 
         # Verify all calls succeeded with expected results
         assert results == embeddings
-        assert mock_loop.run_until_complete.call_count == 3

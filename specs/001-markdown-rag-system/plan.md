@@ -18,7 +18,7 @@ Focus on library modularity to enable easy future integration with any external 
 **Language/Version**: Python 3.12.0
 **Primary Dependencies**: LangChain (RAG workflows), HuggingFaceEmbeddings (local embeddings), python-frontmatter (markdown parsing), Milvus (vector database), Docker & Docker Compose (containerization)
 **Storage**: Milvus vector database with etcd/MinIO dependencies for vector embeddings and metadata
-**Testing**: pytest for unit/integration testing, Docker for containerized testing
+**Testing**: pytest for testing, Docker for containerized testing
 **Target Platform**: Linux development environment with Docker support
 **Project Type**: Single core library with CLI interface, designed for future extensibility
 **Performance Goals**: <3s query response for 1000 files, <30s indexing for new/modified files
@@ -124,20 +124,15 @@ src/
 │       ├── __init__.py
 │       └── settings.py
 
-tests/
-├── unit/                            # Unit tests for library components
-│   ├── embeddings/
-│   ├── models/
-│   ├── parsers/
-│   ├── storage/
-│   ├── search/
-│   └── monitoring/
-├── integration/                     # Integration tests
-│   ├── test_end_to_end/
-│   └── test_milvus_integration/
-└── contract/                        # Library interface contract tests
-    ├── core/
-    └── test_cli_contracts/
+tests/                         # Unit tests for library components
+├── indexing/
+├── embeddings/
+├── models/
+└── parsers/
+└── config/
+└── storage/
+└── search/
+└── monitoring/
 
 docker/                             # Containerization setup
 ├── docker-compose.yml              # Milvus + dependencies

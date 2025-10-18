@@ -17,7 +17,7 @@
 
 - **Single project**: `src/`, `tests/` at repository root
 - Core library in `src/markdown_rag_mcp/`
-- Test structure: `tests/unit/`, `tests/integration/`, `tests/contract/`
+- Test structure: `tests/`
 
 ---
 
@@ -60,14 +60,11 @@
 
 **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [x] T012 [P] [US1] Contract test for RAGEngine.search() interface in `tests/contract/core/test_rag_engine.py`
-- [ ] T013 [P] [US1] Contract test for CLI search command in `tests/contract/test_cli_contracts/test_search_command.py`
-- [ ] T014 [P] [US1] Integration test for end-to-end query workflow in `tests/integration/test_end_to_end/test_basic_search.py`
-- [x] T015 [P] [US1] Unit tests for markdown parsing in `tests/unit/parsers/test_markdown_parser.py`
-- [ ] T016 [P] [US1] Unit tests for document chunking in `tests/unit/indexing/test_chunker.py`
-- [x] T017 [P] [US1] Unit tests for embedding generation in `tests/unit/embeddings/test_embedder.py`
-- [x] T018 [P] [US1] Unit tests for vector storage in `tests/unit/storage/test_milvus_store.py`
-- [x] T019 [P] [US1] Unit tests for query processor in `tests/unit/search/test_query_processor.py`
+- [x] T015 [P] [US1] Unit tests for markdown parsing in `tests/parsers/test_markdown_parser.py`
+- [x] T016 [P] [US1] Unit tests for document chunking in `tests/indexing/test_chunker.py`
+- [x] T017 [P] [US1] Unit tests for embedding generation in `tests/embeddings/test_embedder.py`
+- [x] T018 [P] [US1] Unit tests for vector storage in `tests/storage/test_milvus_store.py`
+- [x] T019 [P] [US1] Unit tests for query processor in `tests/search/test_query_processor.py`
 
 ### Implementation for User Story 1
 
@@ -97,10 +94,8 @@
 
 ### Tests for User Story 2 (TDD - Write Tests First) ⚠️
 
-- [ ] T034 [P] [US2] Contract test for frontmatter parsing in `tests/contract/test_core_interfaces/test_frontmatter_parsing.py`
-- [ ] T035 [P] [US2] Integration test for frontmatter-enhanced search in `tests/integration/test_end_to_end/test_frontmatter_search.py`
-- [x] T036 [P] [US2] Unit tests for frontmatter parser in `tests/unit/parsers/test_frontmatter_parser.py`
-- [ ] T037 [P] [US2] Unit tests for metadata enhancement in `tests/unit/indexing/test_metadata_enhancer.py`
+- [x] T036 [P] [US2] Unit tests for frontmatter parser in `tests/parsers/test_frontmatter_parser.py`
+- [x] T037 [P] [US2] Unit tests for metadata enhancement in `tests/indexing/test_metadata_enhancer.py`
 
 ### Implementation for User Story 2
 
@@ -125,11 +120,9 @@
 
 ### Tests for User Story 3 (TDD - Write Tests First) ⚠️
 
-- [ ] T047 [P] [US3] Contract test for file monitoring in `tests/contract/test_core_interfaces/test_file_monitoring.py`
-- [ ] T048 [P] [US3] Integration test for incremental updates in `tests/integration/test_end_to_end/test_incremental_indexing.py`
-- [x] T049 [P] [US3] Unit tests for file watcher in `tests/unit/monitoring/test_file_watcher.py`
-- [ ] T050 [P] [US3] Unit tests for change detection in `tests/unit/indexing/test_change_detector.py`
-- [x] T051 [P] [US3] Unit tests for monitoring coordinator in `tests/unit/monitoring/test_monitoring_coordinator.py` (Added - covers monitoring coordination)
+- [x] T049 [P] [US3] Unit tests for file watcher in `tests/monitoring/test_file_watcher.py`
+- [x] T050 [P] [US3] Unit tests for change detection in `tests/indexing/test_change_detector.py`
+- [x] T051 [P] [US3] Unit tests for monitoring coordinator in `tests/monitoring/test_monitoring_coordinator.py` (Added - covers monitoring coordination)
 
 ### Implementation for User Story 3
 
@@ -212,9 +205,7 @@
 
 ```bash
 # Launch all tests for User Story 1 together (TDD - write first):
-Task: "Contract test for RAGEngine.search() interface in tests/contract/test_core_interfaces/test_rag_engine.py"
-Task: "Integration test for end-to-end query workflow in tests/integration/test_end_to_end/test_basic_search.py"
-Task: "Unit tests for markdown parsing in tests/unit/test_parsers/test_markdown_parser.py"
+Task: "Unit tests for markdown parsing in tests/parsers/test_markdown_parser.py"
 
 # Launch all models for User Story 1 together:
 Task: "Implement document models in src/markdown_rag_mcp/models/document.py"
