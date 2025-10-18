@@ -16,10 +16,15 @@ from pathlib import Path
 
 import click
 from markdown_rag_mcp.parsers.markdown_parser import MarkdownParser
+from rich.console import Console
+from rich.panel import Panel
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# Initialize rich console
+console = Console()
 
 
 # Mock configuration for MarkdownParser
@@ -490,20 +495,35 @@ async def demonstrate_special_features(directory: Path, stats: dict):
 
 async def run_comprehensive_demo(directory: Path, create_samples: bool = True):
     """Run the complete MarkdownParser demonstration."""
-    print("🎯 MarkdownParser Comprehensive Demonstration")
-    print("=" * 60)
-    print(f"📁 Working directory: {directory}")
-    print("🔧 Parser: MarkdownParser with integrated FrontmatterParser")
+
+    # Display demo purpose panel
+    console.print(
+        Panel.fit(
+            "📄 [bold blue]Markdown Parsing & Frontmatter Integration Demo[/bold blue]\n"
+            "This demo showcases advanced markdown processing capabilities including:\n"
+            "• YAML frontmatter parsing and metadata extraction\n"
+            "• Document structure analysis (headers, sections, content)\n"
+            "• Content chunking with semantic boundary detection\n"
+            "• Metadata enhancement for improved search relevance\n"
+            "• Error handling for malformed frontmatter\n"
+            "• Mixed format field processing (strings, lists, tags)\n"
+            "• Performance analysis and parsing statistics\n\n"
+            f"📁 Directory: [cyan]{directory}[/cyan] | "
+            f"🔧 Parser: [yellow]MarkdownParser + FrontmatterParser[/yellow]",
+            title="Markdown RAG Parsing Demo",
+            border_style="blue",
+        )
+    )
 
     if create_samples:
         filenames = create_sample_markdown_files(directory)
     else:
         filenames = [f.name for f in directory.glob("*.md")]
         if not filenames:
-            print("❌ No markdown files found. Use --setup to create sample files.")
+            console.print("❌ [red]No markdown files found.[/red] Use [cyan]--setup[/cyan] to create sample files.")
             return
 
-    print(f"\n📊 Processing {len(filenames)} markdown files...")
+    console.print(f"\n📊 [bold green]Processing {len(filenames)} markdown files...[/bold green]")
 
     # Run main parsing demonstration
     parsing_stats = await demonstrate_markdown_parsing(directory, filenames)

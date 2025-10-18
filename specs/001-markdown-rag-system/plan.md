@@ -148,7 +148,7 @@ examples/                           # Library usage examples (Comprehensive demo
 ├── markdown_parsing_demo.py        # Document parsing examples
 ├── incremental_indexing_demo.py    # Incremental update functionality
 ├── file_watcher_demo.py            # File monitoring capabilities
-├── monitoring_demo.py              # System monitoring features
+├── file_monitoring_demo.py              # System monitoring features
 └── README.md                       # Examples documentation
 
 pyproject.toml                      # Package configuration

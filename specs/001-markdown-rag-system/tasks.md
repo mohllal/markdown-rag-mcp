@@ -156,7 +156,7 @@
   - `examples/markdown_parsing_demo.py` - Document parsing examples
   - `examples/incremental_indexing_demo.py` - Incremental indexing demo
   - `examples/file_watcher_demo.py` - File monitoring demo
-  - `examples/monitoring_demo.py` - System monitoring demo
+  - `examples/file_monitoring_demo.py` - System monitoring demo
 - [x] T062 [P] Implement CLI status command in `src/markdown_rag_mcp/cli/commands.py` for system health and statistics
 - [ ] T063 [P] Implement CLI config command in `src/markdown_rag_mcp/cli/commands.py` for configuration management
 - [x] T064 [P] Add comprehensive logging configuration across all components

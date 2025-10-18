@@ -371,3 +371,80 @@ class IFileMonitor(ABC):
     def is_monitoring(self) -> bool:
         """Check if monitoring is currently active."""
         pass
+
+
+class IIncrementalIndexer(ABC):
+    """
+    Abstract interface for incremental document indexing.
+
+    This interface defines the core operations needed for incremental
+    indexing, allowing for dependency injection and easier testing.
+    """
+
+    @abstractmethod
+    async def update_index_for_directory(
+        self,
+        directory_path: Path,
+        recursive: bool = True,
+        force_full_scan: bool = False,
+    ) -> dict[str, Any]:
+        """
+        Update the index for all changes in a directory.
+
+        Args:
+            directory_path: Directory to scan and update
+            recursive: Whether to scan subdirectories
+            force_full_scan: Whether to force full reindexing
+
+        Returns:
+            Dictionary with update results and statistics
+
+        Raises:
+            IndexingError: If update process fails
+        """
+        pass
+
+    @abstractmethod
+    async def update_single_file(self, file_path: Path, operation: str | None = None) -> dict[str, Any]:
+        """
+        Update the index for a single file.
+
+        Args:
+            file_path: Path to file to update
+            operation: Specific operation to perform ('create', 'update', 'delete', or None for auto-detect)
+
+        Returns:
+            Dictionary with update results
+
+        Raises:
+            IndexingError: If update fails
+        """
+        pass
+
+    @abstractmethod
+    async def batch_update_files(
+        self,
+        file_operations: list[tuple[Path, str]],  # List of (file_path, operation) tuples
+        max_concurrent: int | None = None,
+    ) -> dict[str, Any]:
+        """
+        Process multiple file operations concurrently.
+
+        Args:
+            file_operations: List of (file_path, operation) tuples
+            max_concurrent: Maximum concurrent operations
+
+        Returns:
+            Dictionary with batch processing results
+        """
+        pass
+
+    @abstractmethod
+    def get_status(self) -> dict[str, Any]:
+        """
+        Get status information about the incremental indexer.
+
+        Returns:
+            Dictionary with status information
+        """
+        pass
