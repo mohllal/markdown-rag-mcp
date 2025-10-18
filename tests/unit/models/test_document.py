@@ -4,7 +4,7 @@ from datetime import UTC, datetime
 from uuid import UUID, uuid4
 
 import pytest
-from markdown_rag_mcp.models.document import (
+from markdown_rag_mcp.models import (
     Document,
     DocumentSection,
     ProcessingStatus,

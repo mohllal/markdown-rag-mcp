@@ -11,9 +11,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from markdown_rag_mcp.core.interfaces import IDocumentParser
-from markdown_rag_mcp.models.document import Document, ProcessingStatus
-from markdown_rag_mcp.models.exceptions import DocumentParsingError
+from markdown_rag_mcp.core import IDocumentParser
+from markdown_rag_mcp.models import Document, DocumentParsingError, ProcessingStatus
 from markdown_rag_mcp.parsers.frontmatter_parser import FrontmatterParser
 
 logger = logging.getLogger(__name__)

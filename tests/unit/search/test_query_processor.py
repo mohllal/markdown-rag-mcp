@@ -9,10 +9,9 @@ from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
 
 import pytest
-from markdown_rag_mcp.config.settings import RAGConfig
-from markdown_rag_mcp.models.exceptions import SearchError
-from markdown_rag_mcp.models.query import QueryResult, SearchRequest
-from markdown_rag_mcp.search.query_processor import QueryProcessor
+from markdown_rag_mcp.config import RAGConfig
+from markdown_rag_mcp.models import QueryResult, SearchError, SearchRequest
+from markdown_rag_mcp.search import QueryProcessor
 
 
 class TestQueryProcessor:

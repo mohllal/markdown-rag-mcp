@@ -11,7 +11,7 @@ import logging
 import nest_asyncio
 from langchain_core.embeddings import Embeddings
 
-from markdown_rag_mcp.config.settings import RAGConfig
+from markdown_rag_mcp.config import RAGConfig
 from markdown_rag_mcp.embeddings.embedder import HuggingFaceEmbedder
 
 logger = logging.getLogger(__name__)

@@ -6,8 +6,8 @@ various document formats, with specific support for markdown files
 and YAML frontmatter.
 """
 
-from .frontmatter_parser import FrontmatterParser
-from .markdown_parser import MarkdownParser
+from markdown_rag_mcp.parsers.frontmatter_parser import FrontmatterParser
+from markdown_rag_mcp.parsers.markdown_parser import MarkdownParser
 
 __all__ = [
     "FrontmatterParser",

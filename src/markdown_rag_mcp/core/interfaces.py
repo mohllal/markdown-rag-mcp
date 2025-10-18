@@ -7,11 +7,11 @@ and dependency injection for testing and future implementations.
 
 from abc import ABC, abstractmethod
 from collections.abc import AsyncIterator
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from markdown_rag_mcp.models.document import Document, DocumentSection
-from markdown_rag_mcp.models.query import QueryResult
+from markdown_rag_mcp.models import Document, DocumentSection, FileChangeInfo, QueryResult
 
 
 class IDocumentParser(ABC):
@@ -370,4 +370,253 @@ class IFileMonitor(ABC):
     @abstractmethod
     def is_monitoring(self) -> bool:
         """Check if monitoring is currently active."""
+        pass
+
+
+class IIncrementalIndexer(ABC):
+    """
+    Abstract interface for incremental document indexing.
+
+    This interface defines the core operations needed for incremental
+    indexing, allowing for dependency injection and easier testing.
+    """
+
+    @abstractmethod
+    async def update_index_for_directory(
+        self,
+        directory_path: Path,
+        recursive: bool = True,
+        force_full_scan: bool = False,
+    ) -> dict[str, Any]:
+        """
+        Update the index for all changes in a directory.
+
+        Args:
+            directory_path: Directory to scan and update
+            recursive: Whether to scan subdirectories
+            force_full_scan: Whether to force full reindexing
+
+        Returns:
+            Dictionary with update results and statistics
+
+        Raises:
+            IndexingError: If update process fails
+        """
+        pass
+
+    @abstractmethod
+    async def update_single_file(self, file_path: Path, operation: str | None = None) -> dict[str, Any]:
+        """
+        Update the index for a single file.
+
+        Args:
+            file_path: Path to file to update
+            operation: Specific operation to perform ('create', 'update', 'delete', or None for auto-detect)
+
+        Returns:
+            Dictionary with update results
+
+        Raises:
+            IndexingError: If update fails
+        """
+        pass
+
+    @abstractmethod
+    async def batch_update_files(
+        self,
+        file_operations: list[tuple[Path, str]],  # List of (file_path, operation) tuples
+        max_concurrent: int | None = None,
+    ) -> dict[str, Any]:
+        """
+        Process multiple file operations concurrently.
+
+        Args:
+            file_operations: List of (file_path, operation) tuples
+            max_concurrent: Maximum concurrent operations
+
+        Returns:
+            Dictionary with batch processing results
+        """
+        pass
+
+    @abstractmethod
+    def get_status(self) -> dict[str, Any]:
+        """
+        Get status information about the incremental indexer.
+
+        Returns:
+            Dictionary with status information
+        """
+        pass
+
+
+class IDocumentChunker(ABC):
+    """
+    Abstract interface for document chunking.
+
+    This interface defines the core operations needed for document chunking,
+    allowing for dependency injection and easier testing.
+    """
+
+    @abstractmethod
+    def chunk_document(self, document: Document, content: str) -> list[DocumentSection]:
+        """
+        Chunk a document into sections.
+
+        Args:
+            document: Document to chunk
+            content: Content of the document
+
+        Returns:
+            List of document sections
+        """
+        pass
+
+    @abstractmethod
+    def get_chunking_stats(self, sections: list[DocumentSection]) -> dict:
+        """
+        Get statistics about the chunking process.
+
+        Args:
+            sections: List of document sections
+
+        Returns:
+            Dictionary with chunking statistics
+        """
+        pass
+
+
+class IMetadataEnhancer(ABC):
+    """
+    Abstract interface for metadata enhancement.
+
+    This interface defines the core operations needed for metadata enhancement,
+    allowing for dependency injection and easier testing.
+    """
+
+    @abstractmethod
+    def enhance_document_for_embedding(self, document: Document, content: str) -> str:
+        """
+        Enhance a document for embedding.
+
+        Args:
+            document: Document to enhance
+            content: Content of the document
+
+        Returns:
+            Enhanced content
+        """
+        pass
+
+    @abstractmethod
+    def enhance_section_for_embedding(self, document: Document, section: DocumentSection) -> str:
+        """
+        Enhance a section for embedding.
+
+        Args:
+            document: Document to enhance
+            section: Section to enhance
+
+        Returns:
+            Enhanced section
+        """
+        pass
+
+    @abstractmethod
+    def create_metadata_context(self, document: Document) -> str:
+        """
+        Create a metadata context for a document.
+
+        Args:
+            document: Document to create metadata context for
+
+        Returns:
+            Metadata context
+        """
+        pass
+
+    @abstractmethod
+    def get_enhancement_stats(self, document: Document) -> dict:
+        """
+        Get statistics about the metadata enhancement process.
+
+        Args:
+            document: Document to get enhancement statistics for
+
+        Returns:
+            Dictionary with enhancement statistics
+        """
+        pass
+
+
+class IChangeDetector(ABC):
+    """
+    Abstract interface for change detection.
+
+    This interface defines the core operations needed for change detection,
+    allowing for dependency injection and easier testing.
+    """
+
+    @abstractmethod
+    async def scan_directory_for_changes(
+        self, directory_path: Path, recursive: bool = True, known_documents: list[Document] | None = None
+    ) -> list[FileChangeInfo]:
+        """
+        Scan a directory for changes.
+
+        Args:
+            directory_path: Directory to scan
+            recursive: Whether to scan subdirectories
+            known_documents: List of previously indexed documents
+
+        Returns:
+            List of detected file changes
+        """
+        pass
+
+    @abstractmethod
+    async def check_file_changed(
+        self, file_path: Path, known_document: Document | None = None
+    ) -> FileChangeInfo | None:
+        """
+        Check if a file has changed.
+
+        Args:
+            file_path: Path to file to check
+            known_document: Previously indexed document info
+        Returns:
+            FileChangeInfo if changed, None if unchanged
+        """
+        pass
+
+    @abstractmethod
+    def update_file_index(self, file_path: Path, content_hash: str, modified_time: datetime) -> None:
+        """
+        Update the file index.
+
+        Args:
+            file_path: Path to file to update
+            content_hash: Content hash of the file
+            modified_time: Modification time of the file
+        """
+        pass
+
+    @abstractmethod
+    def remove_from_index(self, file_path: Path) -> None:
+        """
+        Remove a file from the index.
+
+        Args:
+            file_path: Path to file to remove
+        """
+        pass
+
+    @abstractmethod
+    def get_index_stats(self) -> dict[str, int]:
+        """
+        Get statistics about the file index.
+
+        Returns:
+            Dictionary with index statistics
+        """
         pass

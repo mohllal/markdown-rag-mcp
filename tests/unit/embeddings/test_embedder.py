@@ -11,9 +11,9 @@ from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pytest
-from markdown_rag_mcp.config.settings import EmbeddingDevice, RAGConfig
-from markdown_rag_mcp.embeddings.embedder import HuggingFaceEmbedder
-from markdown_rag_mcp.models.exceptions import EmbeddingModelError
+from markdown_rag_mcp.config import EmbeddingDevice, RAGConfig
+from markdown_rag_mcp.embeddings import HuggingFaceEmbedder
+from markdown_rag_mcp.models import EmbeddingModelError
 
 
 class TestHuggingFaceEmbedder:

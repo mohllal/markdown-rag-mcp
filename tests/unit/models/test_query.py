@@ -4,7 +4,7 @@ from datetime import datetime
 from uuid import UUID, uuid4
 
 import pytest
-from markdown_rag_mcp.models.query import (
+from markdown_rag_mcp.models import (
     OutputFormat,
     QueryResult,
     SearchRequest,

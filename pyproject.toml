@@ -45,6 +45,7 @@ dependencies = [
     # CLI and configuration
     "click>=8.0.0",
     "rich>=13.0.0",
+    "rich-click>=1.9.3",
     "python-dotenv>=1.0.0",
 
     # Async support

@@ -5,11 +5,9 @@ from uuid import uuid4
 
 import pytest
 from langchain_core.documents import Document
-from markdown_rag_mcp.config.settings import RAGConfig
-from markdown_rag_mcp.models.document import DocumentSection, SectionType
-from markdown_rag_mcp.models.exceptions import VectorStoreError
-from markdown_rag_mcp.models.query import QueryResult
-from markdown_rag_mcp.storage.milvus_store import MilvusVectorStore
+from markdown_rag_mcp.config import RAGConfig
+from markdown_rag_mcp.models import DocumentSection, QueryResult, SectionType, VectorStoreError
+from markdown_rag_mcp.storage import MilvusVectorStore
 
 
 class TestMilvusVectorStore:

@@ -9,8 +9,8 @@ import tempfile
 from pathlib import Path
 
 import pytest
-from markdown_rag_mcp.models.exceptions import ParsingError
-from markdown_rag_mcp.parsers.frontmatter_parser import FrontmatterParser
+from markdown_rag_mcp.models import ParsingError
+from markdown_rag_mcp.parsers import FrontmatterParser
 
 
 class TestFrontmatterParser:
