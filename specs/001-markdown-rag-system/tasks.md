@@ -61,7 +61,7 @@
 **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
 - [x] T015 [P] [US1] Unit tests for markdown parsing in `tests/parsers/test_markdown_parser.py`
-- [ ] T016 [P] [US1] Unit tests for document chunking in `tests/indexing/test_chunker.py`
+- [x] T016 [P] [US1] Unit tests for document chunking in `tests/indexing/test_chunker.py`
 - [x] T017 [P] [US1] Unit tests for embedding generation in `tests/embeddings/test_embedder.py`
 - [x] T018 [P] [US1] Unit tests for vector storage in `tests/storage/test_milvus_store.py`
 - [x] T019 [P] [US1] Unit tests for query processor in `tests/search/test_query_processor.py`
@@ -95,7 +95,7 @@
 ### Tests for User Story 2 (TDD - Write Tests First) ⚠️
 
 - [x] T036 [P] [US2] Unit tests for frontmatter parser in `tests/parsers/test_frontmatter_parser.py`
-- [ ] T037 [P] [US2] Unit tests for metadata enhancement in `tests/indexing/test_metadata_enhancer.py`
+- [x] T037 [P] [US2] Unit tests for metadata enhancement in `tests/indexing/test_metadata_enhancer.py`
 
 ### Implementation for User Story 2
 
@@ -121,7 +121,7 @@
 ### Tests for User Story 3 (TDD - Write Tests First) ⚠️
 
 - [x] T049 [P] [US3] Unit tests for file watcher in `tests/monitoring/test_file_watcher.py`
-- [ ] T050 [P] [US3] Unit tests for change detection in `tests/indexing/test_change_detector.py`
+- [x] T050 [P] [US3] Unit tests for change detection in `tests/indexing/test_change_detector.py`
 - [x] T051 [P] [US3] Unit tests for monitoring coordinator in `tests/monitoring/test_monitoring_coordinator.py` (Added - covers monitoring coordination)
 
 ### Implementation for User Story 3
