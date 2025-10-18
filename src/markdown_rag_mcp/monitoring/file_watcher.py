@@ -14,7 +14,7 @@ from pathlib import Path
 from watchdog.events import FileSystemEvent, FileSystemEventHandler
 from watchdog.observers import Observer
 
-from markdown_rag_mcp.models.exceptions import MonitoringError
+from markdown_rag_mcp.models import MonitoringError
 
 logger = logging.getLogger(__name__)
 

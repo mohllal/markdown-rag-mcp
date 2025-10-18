@@ -9,11 +9,9 @@ from langchain_core.documents import Document
 from langchain_milvus import Milvus
 from pymilvus import MilvusClient
 
-from markdown_rag_mcp.config.settings import RAGConfig
-from markdown_rag_mcp.core.interfaces import IEmbeddingProvider, IVectorStore
-from markdown_rag_mcp.models.document import DocumentSection
-from markdown_rag_mcp.models.exceptions import VectorStoreError
-from markdown_rag_mcp.models.query import QueryResult
+from markdown_rag_mcp.config import RAGConfig
+from markdown_rag_mcp.core import IEmbeddingProvider, IVectorStore
+from markdown_rag_mcp.models import DocumentSection, QueryResult, VectorStoreError
 
 logger = logging.getLogger(__name__)
 

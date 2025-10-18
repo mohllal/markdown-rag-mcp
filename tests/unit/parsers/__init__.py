@@ -1,1 +1,1 @@
-# Tests for parsers package
+"""Unit tests for the parsers package."""

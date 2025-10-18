@@ -1,1 +1,1 @@
-# Tests for embeddings package
+"""Unit tests for the embeddings package."""

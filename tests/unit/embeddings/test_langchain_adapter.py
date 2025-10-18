@@ -8,9 +8,8 @@ nested event loop handling, and integration with HuggingFaceEmbedder.
 from unittest.mock import MagicMock, patch
 
 import pytest
-from markdown_rag_mcp.config.settings import EmbeddingDevice, RAGConfig
-from markdown_rag_mcp.embeddings.embedder import HuggingFaceEmbedder
-from markdown_rag_mcp.embeddings.langchain_adapter import LangChainEmbeddingAdapter
+from markdown_rag_mcp.config import EmbeddingDevice, RAGConfig
+from markdown_rag_mcp.embeddings import HuggingFaceEmbedder, LangChainEmbeddingAdapter
 
 
 class TestLangChainEmbeddingAdapter:

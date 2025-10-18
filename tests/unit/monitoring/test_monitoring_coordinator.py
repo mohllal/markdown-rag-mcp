@@ -4,11 +4,10 @@ from pathlib import Path
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-from markdown_rag_mcp.config.settings import RAGConfig
-from markdown_rag_mcp.core.interfaces import IIncrementalIndexer
-from markdown_rag_mcp.models.exceptions import MonitoringError
-from markdown_rag_mcp.monitoring.file_watcher import MarkdownFileWatcher
-from markdown_rag_mcp.monitoring.monitoring_coordinator import MonitoringCoordinator
+from markdown_rag_mcp.config import RAGConfig
+from markdown_rag_mcp.core import IIncrementalIndexer
+from markdown_rag_mcp.models import MonitoringError
+from markdown_rag_mcp.monitoring import MarkdownFileWatcher, MonitoringCoordinator
 
 
 class TestMonitoringCoordinator:

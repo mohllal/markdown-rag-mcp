@@ -15,7 +15,7 @@ import logging
 from pathlib import Path
 
 import rich_click as click
-from markdown_rag_mcp.parsers.markdown_parser import MarkdownParser
+from markdown_rag_mcp.parsers import MarkdownParser
 from rich.console import Console
 from rich.panel import Panel
 

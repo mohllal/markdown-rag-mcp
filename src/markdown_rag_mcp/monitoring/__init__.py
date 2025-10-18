@@ -6,8 +6,8 @@ and automatically updating the document index when files are added,
 modified, or deleted.
 """
 
-from .file_watcher import FileChangeEvent, MarkdownFileWatcher
-from .monitoring_coordinator import MonitoringCoordinator
+from markdown_rag_mcp.monitoring.file_watcher import FileChangeEvent, MarkdownFileWatcher
+from markdown_rag_mcp.monitoring.monitoring_coordinator import MonitoringCoordinator
 
 __all__ = [
     "FileChangeEvent",

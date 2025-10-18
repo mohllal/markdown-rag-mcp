@@ -8,9 +8,8 @@ with vector store for similarity search.
 import logging
 from typing import Any
 
-from markdown_rag_mcp.core.interfaces import IEmbeddingProvider, IVectorStore
-from markdown_rag_mcp.models.exceptions import SearchError
-from markdown_rag_mcp.models.query import QueryResult, SearchRequest
+from markdown_rag_mcp.core import IEmbeddingProvider, IVectorStore
+from markdown_rag_mcp.models import QueryResult, SearchError, SearchRequest
 
 logger = logging.getLogger(__name__)
 

@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 import rich_click as click
-from markdown_rag_mcp.monitoring.monitoring_coordinator import MonitoringCoordinator
+from markdown_rag_mcp.monitoring import MonitoringCoordinator
 from rich.console import Console
 from rich.panel import Panel
 from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn, TimeElapsedColumn, track

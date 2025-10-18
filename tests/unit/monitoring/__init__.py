@@ -1,1 +1,1 @@
-"""Unit tests for monitoring package."""
+"""Unit tests for the monitoring package."""

@@ -7,8 +7,8 @@ Generates embeddings using local HuggingFace sentence-transformers models.
 import asyncio
 import logging
 
-from markdown_rag_mcp.core.interfaces import IEmbeddingProvider
-from markdown_rag_mcp.models.exceptions import EmbeddingModelError
+from markdown_rag_mcp.core import IEmbeddingProvider
+from markdown_rag_mcp.models import EmbeddingModelError
 
 logger = logging.getLogger(__name__)
 
