@@ -14,10 +14,16 @@ import asyncio
 import logging
 from pathlib import Path
 
-import click
+import rich_click as click
 from markdown_rag_mcp.parsers.markdown_parser import MarkdownParser
 from rich.console import Console
 from rich.panel import Panel
+
+# Configure rich-click
+click.rich_click.USE_RICH_MARKUP = True
+click.rich_click.USE_MARKDOWN = True
+click.rich_click.SHOW_ARGUMENTS = True
+click.rich_click.GROUP_ARGUMENTS_OPTIONS = True
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -553,28 +559,37 @@ async def run_comprehensive_demo(directory: Path, create_samples: bool = True):
     '-d',
     type=click.Path(path_type=Path),
     default=Path('./test_markdown'),
-    help='Directory for sample markdown files',
+    help='[cyan]Directory for sample markdown files[/cyan]',
 )
-@click.option('--setup', '-s', is_flag=True, help='Create sample markdown files')
-@click.option('--verbose', '-v', is_flag=True, help='Enable verbose logging')
+@click.option('--setup', '-s', is_flag=True, help='[green]Create sample markdown files[/green]')
+@click.option('--verbose', '-v', is_flag=True, help='[blue]Enable verbose logging[/blue]')
 def main(directory: Path, setup: bool, verbose: bool):
     """
-    Comprehensive demonstration of MarkdownParser functionality.
+    [bold blue]Comprehensive demonstration of MarkdownParser functionality[/bold blue]
 
-    This script demonstrates the MarkdownParser class (with integrated
+    [dim]This script demonstrates the MarkdownParser class (with integrated
     FrontmatterParser) parsing various markdown files with different
-    frontmatter configurations and content types.
+    frontmatter configurations and content types.[/dim]
 
-    Examples:
+    [yellow]Features Demonstrated:[/yellow]
+    • YAML frontmatter parsing and validation
+    • Document content analysis and word counting
+    • Mixed format field processing (strings, lists, tags)
+    • Unicode content support including emojis
+    • Error handling for malformed frontmatter
+    • Performance analysis and parsing statistics
 
-        # Create samples and run demo
-        python examples/markdown_parsing_demo.py --setup
+    [yellow]Examples:[/yellow]
+    ```
+    # Create samples and run demo
+    python examples/markdown_parsing_demo.py --setup
 
-        # Run with existing files in custom directory
-        python examples/markdown_parsing_demo.py -d /path/to/markdown/files
+    # Run with existing files in custom directory
+    python examples/markdown_parsing_demo.py -d /path/to/markdown/files
 
-        # Verbose output with samples
-        python examples/markdown_parsing_demo.py -s -v
+    # Verbose output with samples
+    python examples/markdown_parsing_demo.py -s -v
+    ```
     """
     if verbose:
         logging.getLogger().setLevel(logging.DEBUG)

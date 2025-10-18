@@ -15,12 +15,18 @@ import time
 from pathlib import Path
 from typing import Any
 
-import click
+import rich_click as click
 from markdown_rag_mcp.monitoring.monitoring_coordinator import MonitoringCoordinator
 from rich.console import Console
 from rich.panel import Panel
 from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn, TimeElapsedColumn, track
 from rich.table import Table
+
+# Configure rich-click
+click.rich_click.USE_RICH_MARKUP = True
+click.rich_click.USE_MARKDOWN = True
+click.rich_click.SHOW_ARGUMENTS = True
+click.rich_click.GROUP_ARGUMENTS_OPTIONS = True
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -342,34 +348,36 @@ Starts monitoring a directory for file changes.
     '-d',
     type=click.Path(path_type=Path),
     default=Path('./test_markdown'),
-    help='Directory to monitor (will be created if it doesn\'t exist)',
+    help='[cyan]Directory to monitor[/cyan] (will be created if it doesn\'t exist)',
 )
-@click.option('--duration', '-t', type=int, default=60, help='Duration to run the demo in seconds')
-@click.option('--create-samples', '-s', is_flag=True, help='Create sample markdown files for testing')
-@click.option('--verbose', '-v', is_flag=True, help='Enable verbose logging')
+@click.option('--duration', '-t', type=int, default=60, help='[yellow]Duration to run the demo in seconds[/yellow]')
+@click.option('--create-samples', '-s', is_flag=True, help='[green]Create sample markdown files for testing[/green]')
+@click.option('--verbose', '-v', is_flag=True, help='[blue]Enable verbose logging[/blue]')
 def main(watch_dir: Path, duration: int, create_samples: bool, verbose: bool):
     """
-    Run the Markdown RAG monitoring system demonstration.
+    [bold blue]Run the Markdown RAG monitoring system demonstration[/bold blue]
 
-    This script demonstrates the automatic file monitoring and indexing
-    capabilities of the Markdown RAG system. It will:
+    [dim]This script demonstrates the automatic file monitoring and indexing
+    capabilities of the Markdown RAG system.[/dim]
 
-    1. Set up monitoring on the specified directory
-    2. Perform an initial scan of existing files
-    3. Watch for file changes (create, modify, delete)
-    4. Automatically update the search index
-    5. Report statistics and progress
+    [yellow]Features Demonstrated:[/yellow]
+    • Set up monitoring on the specified directory
+    • Perform an initial scan of existing files
+    • Watch for file changes (create, modify, delete)
+    • Automatically update the search index
+    • Report statistics and progress
 
-    Example usage:
+    [yellow]Example Usage:[/yellow]
+    ```
+    # Run with default settings (60 seconds, ./test_markdown directory)
+    python examples/file_monitoring_demo.py
 
-        # Run with default settings (60 seconds, ./test_markdown directory)
-        python examples/file_monitoring_demo.py
+    # Monitor a specific directory for 2 minutes
+    python examples/file_monitoring_demo.py -d /path/to/docs -t 120
 
-        # Monitor a specific directory for 2 minutes
-        python examples/file_monitoring_demo.py -d /path/to/docs -t 120
-
-        # Create sample files and run demo
-        python examples/file_monitoring_demo.py -s -v
+    # Create samples and run with verbose output
+    python examples/file_monitoring_demo.py -s -v -t 30
+    ```
     """
     if verbose:
         logging.getLogger().setLevel(logging.DEBUG)
