@@ -3,6 +3,7 @@
 from markdown_rag_mcp.core.interfaces import (
     IChangeDetector,
     IDocumentChunker,
+    IDocumentIndexer,
     IDocumentParser,
     IEmbeddingProvider,
     IIncrementalIndexer,
@@ -22,4 +23,5 @@ __all__ = [
     "IMetadataEnhancer",
     "IChangeDetector",
     "IIncrementalIndexer",
+    "IDocumentIndexer",
 ]

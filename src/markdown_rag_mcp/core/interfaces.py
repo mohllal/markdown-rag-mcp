@@ -620,3 +620,69 @@ class IChangeDetector(ABC):
             Dictionary with index statistics
         """
         pass
+
+
+class IDocumentIndexer(ABC):
+    """
+    Abstract interface for document indexing.
+
+    This interface defines the core operations needed for document indexing,
+    allowing for dependency injection and easier testing.
+    """
+
+    @abstractmethod
+    async def index_document(self, file_path: Path, force_reindex: bool = False) -> dict[str, Any]:
+        """
+        Index a single document.
+
+        Args:
+            file_path: Path to the document to index
+            force_reindex: Whether to reindex if already exists
+
+        Returns:
+            Dictionary with indexing results
+        """
+        pass
+
+    @abstractmethod
+    async def update_document(self, file_path: Path) -> dict[str, Any]:
+        """
+        Update an existing document.
+
+        Args:
+            file_path: Path to the document to update
+
+        Returns:
+            Dictionary with update results
+        """
+        pass
+
+    @abstractmethod
+    async def remove_document(self, file_path: Path) -> dict[str, Any]:
+        """
+        Remove a document from the index.
+
+        Args:
+            file_path: Path to the document to remove
+
+        Returns:
+            Dictionary with removal results
+        """
+        pass
+
+    @abstractmethod
+    async def batch_index_documents(
+        self, file_paths: list[Path], force_reindex: bool = False, max_concurrent: int = None
+    ) -> dict[str, Any]:
+        """
+        Batch index documents.
+
+        Args:
+            file_paths: List of document paths to index
+            force_reindex: Whether to reindex existing documents
+            max_concurrent: Maximum concurrent indexing operations
+
+        Returns:
+            Dictionary with batch indexing results
+        """
+        pass
