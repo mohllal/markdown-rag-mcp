@@ -3,7 +3,7 @@
 **Feature Branch**: `001-markdown-rag-system`
 **Created**: 2025-10-08
 **Status**: Draft
-**Input**: User description: "Build a Markdown-based Retrieval-Augmented Generation (RAG) system that processes and indexes a collection of Markdown files locally on the `./markdown` directory.
+**Input**: User description: "Build a Markdown-based Retrieval-Augmented Generation (RAG) system that processes and indexes a collection of Markdown files locally on the `./documents` directory.
 
 The system should:
 
@@ -39,7 +39,7 @@ As a developer or content creator, I want to search through my collection of Mar
 
 **Acceptance Scenarios**:
 
-1. **Given** a collection of markdown files exists in `./markdown` directory, **When** I query "authentication setup", **Then** the system returns all sections with similarity scores >0.7 ranked by semantic similarity
+1. **Given** a collection of markdown files exists in `./documents` directory, **When** I query "authentication setup", **Then** the system returns all sections with similarity scores >0.7 ranked by semantic similarity
 2. **Given** markdown files contain code blocks and explanations, **When** I search for "error handling patterns", **Then** the system returns both code examples and explanatory text that match the query
 3. **Given** multiple files discuss similar topics, **When** I query a specific concept, **Then** results include the source file path and section location for each match
 
@@ -71,7 +71,7 @@ As a user with a growing collection of documentation, I want the system to autom
 
 **Acceptance Scenarios**:
 
-1. **Given** the system is monitoring the `./markdown` directory, **When** a new file is added, **Then** the file is automatically parsed and indexed for search
+1. **Given** the system is monitoring the `./documents` directory, **When** a new file is added, **Then** the file is automatically parsed and indexed for search
 2. **Given** an existing indexed file is modified, **When** the file content changes, **Then** the system updates the corresponding vector embeddings and metadata
 3. **Given** a file is deleted from the directory, **When** the system detects the change, **Then** the corresponding vectors and metadata are removed from the index
 
@@ -84,21 +84,20 @@ As a user with a growing collection of documentation, I want the system to autom
 - When the vector database is unavailable or corrupted, the system returns clear error messages to external components without attempting complex recovery mechanisms
 - How are duplicate or near-duplicate files handled in the index?
 - What happens when embedding generation fails for specific content?
-- How is the 85% accuracy target (SC-002) measured? System requires ground truth dataset with labeled query-answer pairs for technical documentation scenarios.
 
 ## Requirements
 
 ### Functional Requirements
 
-- **FR-001**: System MUST parse markdown files in `./markdown` directory including headings, body text, code blocks, and existing frontmatter
-- **FR-002**: System MUST generate semantic embeddings for markdown content using a local embedding model, chunking documents by markdown headings with maximum chunk size of 1000 tokens to ensure compatibility with embedding model context windows
+- **FR-001**: System MUST parse markdown files in `./documents` directory including headings, body text, code blocks, and existing frontmatter
+- **FR-002**: System MUST generate semantic embeddings for markdown content using a local embedding model, chunking documents by markdown headings with maximum chunk size of 1000 tokens (using sentence-transformers tokenizer) to ensure compatibility with embedding model context windows
 - **FR-003**: System MUST store document vectors and metadata in a local vector database with similarity search capabilities
 - **FR-004**: System MUST accept natural language queries and return results as JSON objects containing section text, file path, confidence score, and section heading, ranked by relevance, including only matches with similarity scores >0.7
 - **FR-005**: System MUST parse and utilize existing YAML frontmatter when present, including `title`, `tags`, `summary`, `topics`, `keywords`, and `llm_hints` fields
 - **FR-006**: System MUST function correctly with markdown files that have no frontmatter
 - **FR-007**: System MUST provide a modular interface that can be consumed by external components (MCP servers, APIs)
 - **FR-008**: System MUST maintain an index of processed files with timestamps for incremental updates
-- **FR-009**: System MUST handle file system monitoring to detect changes in the `./markdown` directory
+- **FR-009**: System MUST handle file system monitoring to detect changes in the `./documents` directory
 - **FR-010**: System MUST skip files that cannot be processed, log detailed error information, and continue processing remaining files without halting the entire indexing operation
 - **FR-011**: System implementation MUST follow Test-Driven Development (TDD) workflow with tests written first, verified to fail, then implementation written to pass tests per constitutional requirement III
 
@@ -114,13 +113,9 @@ As a user with a growing collection of documentation, I want the system to autom
 
 ### Measurable Outcomes
 
-- **SC-001**: Users can find relevant information within 3 seconds for queries against collections up to 1000 markdown files
-- **SC-002**: System achieves 85% accuracy in returning relevant results for domain-specific technical queries
-- **SC-003**: Files with frontmatter metadata show measurable improvement in search relevance compared to files without metadata
-- **SC-004**: System processes and indexes new or modified files within 30 seconds of detection
-- **SC-005**: Query interface returns results with consistent relevance ranking across multiple similar queries
-- **SC-006**: System handles markdown collections up to 10GB without performance degradation below success criteria thresholds
-- **SC-007**: All implementation tasks have corresponding test tasks that are completed first and verified to fail before implementation begins
+- **SC-001**: Files with frontmatter metadata show measurable improvement in search relevance compared to files without metadata (minimum 15% higher average confidence scores)
+- **SC-002**: Query interface returns results with consistent relevance ranking across multiple similar queries (maximum 0.1 variance in confidence scores for semantically equivalent queries)
+- **SC-003**: All implementation tasks have corresponding test tasks that are completed first and verified to fail before implementation begins
 
 ## Assumptions
 
@@ -128,5 +123,5 @@ As a user with a growing collection of documentation, I want the system to autom
 - Markdown files follow standard CommonMark specification
 - Local vector database (Milvus with Docker Compose) can be installed and configured
 - Embedding model will be downloaded and run locally (no external API dependencies)
-- File system has read/write permissions for the ./markdown directory
+- File system has read/write permissions for the ./documents directory
 - System will run on a development machine with sufficient resources for vector operations

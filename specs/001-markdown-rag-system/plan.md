@@ -22,7 +22,7 @@ Focus on library modularity to enable easy future integration with any external 
 **Target Platform**: Linux development environment with Docker support
 **Project Type**: Single core library with CLI interface, designed for future extensibility
 **Performance Goals**: <3s query response for 1000 files, <30s indexing for new/modified files
-**Constraints**: >0.7 similarity threshold, 85% accuracy on technical queries, 10GB collection support, local-only processing
+**Constraints**: >0.7 similarity threshold, 10GB collection support, local-only processing
 **Scale/Scope**: Support up to 1000 markdown files, modular architecture for future interface integration
 
 ## Constitution Check

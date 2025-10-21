@@ -162,7 +162,7 @@ class MarkdownRAGConfig(BaseSettings):
     max_file_size_mb: int = 50
 
     # Directories
-    markdown_directory: str = "./markdown"
+    markdown_directory: str = "./documents"
     cache_directory: str = "~/.cache/markdown-rag-mcp"
     model_cache_directory: str = "~/.cache/huggingface"
 
@@ -254,7 +254,7 @@ async def basic_example():
     )
 
     # Index documents
-    result = await rag.index_directory("./markdown")
+    result = await rag.index_directory("./documents")
     print(f"Indexed {result.indexed_files} files")
 
     # Search for content
@@ -378,7 +378,7 @@ async def monitoring_example():
             print(f"Removed: {file_path}")
 
     # Start monitoring
-    await monitor.start_monitoring("./markdown", handle_file_change)
+    await monitor.start_monitoring("./documents", handle_file_change)
 
     # Keep running
     try:
@@ -414,7 +414,7 @@ class ConfiguredRAGEngine:
         return RAGEngine(config=config)
 
     @classmethod
-    def for_development(cls, markdown_dir: str = "./markdown") -> RAGEngine:
+    def for_development(cls, markdown_dir: str = "./documents") -> RAGEngine:
         """Create RAG engine with development-friendly defaults."""
         return RAGEngine(
             milvus_host="localhost",

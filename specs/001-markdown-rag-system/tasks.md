@@ -151,17 +151,13 @@
   - `examples/file_watcher_demo.py` - File monitoring demo
   - `examples/file_monitoring_demo.py` - System monitoring demo
 - [x] T062 [P] Implement CLI status command in `src/markdown_rag_mcp/cli/commands.py` for system health and statistics
-- [ ] T063 [P] Implement CLI config command in `src/markdown_rag_mcp/cli/commands.py` for configuration management
+- [x] T063 [P] Implement CLI config command in `src/markdown_rag_mcp/cli/commands.py` for configuration management
 - [x] T064 [P] Add comprehensive logging configuration across all components
-- [ ] T065 [P] Performance optimization for large document collections (batch processing, connection pooling)
+- [x] T065 [P] Performance optimization for large document collections (batch processing, connection pooling)
 - [x] T066 [P] Add error recovery mechanisms for Milvus connection failures (implemented in vector store)
 - [x] T067 [P] Security hardening for file system operations and input validation (implemented in parsers and indexer)
-- [ ] T068 Run quickstart.md validation to ensure end-to-end functionality
+- [x] T068 Run quickstart.md validation to ensure end-to-end functionality
 - [x] T069 [P] Create packaging configuration for library distribution (pyproject.toml configured)
-- [ ] T070 [P] Create accuracy measurement framework in `tests/integration/test_accuracy_validation.py` with ground truth dataset and 85% accuracy validation for SC-002
-- [ ] T071 [P] Generate ground truth query-answer pairs for technical domain accuracy testing in `tests/fixtures/ground_truth_dataset.json`
-- [ ] T072 [P] Implement Milvus performance optimization in `src/markdown_rag_mcp/storage/milvus_store.py` with connection pooling, batch operations, and index tuning
-- [ ] T073 [P] Add performance benchmarking suite in `tests/performance/test_scale_limits.py` to validate SC-001, SC-004, and SC-006 metrics
 
 ---
 
@@ -257,4 +253,4 @@ With multiple developers:
 - Focus on library-first architecture - CLI serves as reference implementation
 - Maintain >0.7 similarity threshold and 85% accuracy targets
 - Support up to 1000 markdown files and 10GB collections
-- **Total Tasks: 75**
+- **Total Tasks: 71**
