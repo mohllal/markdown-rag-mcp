@@ -13,7 +13,8 @@
       "mcp__context7__*",
       "mcp__github__*",
       "Bash(touch:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(markdown-rag-mcp:*)"
     ],
     "deny": [],
     "ask": []
