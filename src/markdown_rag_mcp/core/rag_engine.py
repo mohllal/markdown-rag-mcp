@@ -138,7 +138,6 @@ class RAGEngine(IRAGEngine):
 
             self._initialized = False
             logger.info("RAG engine shutdown complete")
-
         except Exception as e:
             logger.error("Error during RAG engine shutdown: %s", e)
             raise ShutdownError(

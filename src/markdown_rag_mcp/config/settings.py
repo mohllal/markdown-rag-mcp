@@ -75,6 +75,9 @@ class RAGConfig(BaseSettings):
     embedding_cache_dir: Path | None = Field(default=None, description="Directory for caching embedding models")
 
     # === Document Processing Configuration ===
+    default_documents_dir: Path = Field(
+        default=Path("./documents"), description="Default directory containing markdown documents"
+    )
     chunk_size_limit: int = Field(default=1000, ge=100, le=4000, description="Maximum tokens per document chunk")
     chunk_overlap: int = Field(default=50, ge=0, le=200, description="Token overlap between chunks")
     similarity_threshold: float = Field(
@@ -121,6 +124,14 @@ class RAGConfig(BaseSettings):
     debug_mode: bool = Field(default=False, description="Enable debug mode with verbose logging")
     profile_performance: bool = Field(default=False, description="Enable performance profiling")
     validate_schemas: bool = Field(default=True, description="Enable strict data model validation")
+
+    @field_validator('default_documents_dir', mode='before')
+    @classmethod
+    def validate_default_documents_dir(cls, v):
+        """Ensure default_documents_dir is a Path object."""
+        if v is None:
+            return Path("./documents")
+        return Path(v)
 
     @field_validator('embedding_cache_dir', mode='before')
     @classmethod
