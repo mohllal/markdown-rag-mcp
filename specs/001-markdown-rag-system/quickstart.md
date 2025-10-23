@@ -112,11 +112,11 @@ Expected output:
 ### 3.1 Create Sample Markdown Files
 
 ```bash
-# Create markdown directory
-mkdir -p ./markdown
+# Create documents directory
+mkdir -p ./documents
 
 # Create sample authentication guide
-cat > ./markdown/auth-guide.md << 'EOF'
+cat > ./documents/auth-guide.md << 'EOF'
 ---
 title: Authentication Guide
 tags: [auth, setup, security]
@@ -166,7 +166,7 @@ EOF
 
 # Create sample API documentation
 
-cat > ./markdown/api-docs.md << 'EOF'
+cat > ./documents/api-docs.md << 'EOF'
 ---
 
 title: API Documentation
@@ -231,13 +231,13 @@ EOF
 
 ```bash
 # Check created files
-tree ./markdown
+tree ./documents
 ```
 
 Expected structure:
 
 ```plaintext
-./markdown/
+./documents/
 ├── auth-guide.md
 └── api-docs.md
 ```
@@ -247,8 +247,8 @@ Expected structure:
 ### 4.1 Run Initial Indexing
 
 ```bash
-# Index all markdown files in ./markdown directory
-markdown-rag-mcp index ./markdown --format json
+# Index all markdown files in ./documents directory
+markdown-rag-mcp index ./documents --format json
 ```
 
 Expected output:
@@ -310,7 +310,7 @@ markdown-rag-mcp search "session management security" --limit 5
 
 ```bash
 # Start monitoring in background
-markdown-rag-mcp index ./markdown --watch &
+markdown-rag-mcp index ./documents --watch &
 
 # Monitor process ID for later stopping
 MONITOR_PID=$!
@@ -321,7 +321,7 @@ echo "Monitoring process: $MONITOR_PID"
 
 ```bash
 # Add new content to existing file
-cat >> ./markdown/auth-guide.md << 'EOF'
+cat >> ./documents/auth-guide.md << 'EOF'
 
 ## Security Best Practices
 
@@ -507,17 +507,17 @@ markdown-rag-mcp status --detailed
 markdown-rag-mcp search "your query" --threshold 0.5
 
 # Re-index with force flag
-markdown-rag-mcp index ./markdown --force
+markdown-rag-mcp index ./documents --force
 ```
 
 #### Permission Errors
 
 ```bash
 # Check file permissions
-ls -la ./markdown/
+ls -la ./documents/
 
 # Fix permissions if needed
-chmod -R 755 ./markdown/
+chmod -R 755 ./documents/
 ```
 
 ### Getting Help
@@ -531,12 +531,12 @@ markdown-rag-mcp search --help
 markdown-rag-mcp config show
 
 # Validate configuration
-markdown-rag-mcp validate ./markdown
+markdown-rag-mcp validate ./documents
 ```
 
 ## Next Steps
 
-1. **Scale Up**: Add your actual documentation to `./markdown`
+1. **Scale Up**: Add your actual documentation to `./documents`
 2. **Customize**: Adjust similarity thresholds and embedding models in configuration
 3. **Integrate**: Use the Python library API in your applications
 4. **Monitor**: Set up continuous file monitoring for live documentation

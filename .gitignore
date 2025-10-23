@@ -212,4 +212,8 @@ test_markdown/
 # VSCode configuration
 .vscode/
 
+# markdown documents
+documents/**/*.md
+documents/**/*.txt
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,python

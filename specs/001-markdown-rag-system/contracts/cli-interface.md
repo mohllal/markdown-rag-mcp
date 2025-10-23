@@ -29,7 +29,7 @@ markdown-rag-mcp index [OPTIONS] [PATH]
 
 **Arguments**:
 
-- `PATH`: Directory path containing markdown files (default: ./markdown)
+- `PATH`: Directory path containing markdown files (default: ./documents)
 
 **Options**:
 
@@ -46,7 +46,7 @@ markdown-rag-mcp index [OPTIONS] [PATH]
   "processing_time": "15.2s",
   "errors": [
     {
-      "file": "./markdown/broken.md",
+      "file": "./documents/broken.md",
       "error": "Invalid frontmatter syntax"
     }
   ]
@@ -61,7 +61,7 @@ markdown-rag-mcp index [OPTIONS] [PATH]
 ⏱ Completed in 15.2s
 
 Errors:
-  ./markdown/broken.md: Invalid frontmatter syntax
+  ./documents/broken.md: Invalid frontmatter syntax
 ```
 
 **Exit Codes**:
@@ -104,7 +104,7 @@ echo "authentication setup" | markdown-rag-mcp search --format json
   "results": [
     {
       "section_text": "## Authentication Setup\n\nTo configure authentication...",
-      "file_path": "./markdown/auth-guide.md",
+      "file_path": "./documents/auth-guide.md",
       "confidence_score": 0.89,
       "section_heading": "Authentication Setup",
       "heading_level": 2,
@@ -127,7 +127,7 @@ echo "authentication setup" | markdown-rag-mcp search --format json
 🔍 Query: "authentication setup"
 
 ┌─ Result 1/1 (Score: 0.89) ─────────────────────────────────────────────┐
-│ File: ./markdown/auth-guide.md                                         │
+│ File: ./documents/auth-guide.md                                         │
 │ Section: Authentication Setup (H2)                                     │
 ├────────────────────────────────────────────────────────────────────────┤
 │ ## Authentication Setup                                                │
@@ -169,7 +169,7 @@ markdown-rag-mcp status [OPTIONS]
     "total_embeddings": 387
   },
   "directory": {
-    "path": "./markdown",
+    "path": "./documents",
     "total_files": 42,
     "indexed_files": 41,
     "failed_files": 1,
@@ -290,7 +290,7 @@ similarity_threshold = 0.7
 max_file_size_mb = 50
 
 [directories]
-markdown_path = "./markdown"
+markdown_path = "./documents"
 cache_path = "~/.cache/markdown-rag-mcp"
 
 [monitoring]
